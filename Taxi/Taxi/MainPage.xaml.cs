@@ -9,6 +9,8 @@ namespace Taxi
     public partial class MainPage : ContentPage
     {
         public Label SearchLabel;
+
+        private Label _timerLabel;
         private Button _buttonOrderTaxi;
         private FlyoutMenu _flyoutMenu;
         private Button _fastSearchButton;
@@ -18,13 +20,7 @@ namespace Taxi
         private Label _driverInfo;
         private Label _driverExpirience;
         private Label _fastSearchInfo;
-        private FlexLayout _buttonOnWaitingDriver = new FlexLayout 
-        { 
-            WidthRequest = 300,
-            HorizontalOptions = LayoutOptions.Center,
-            Direction = FlexDirection.Row,
-            Margin = new Thickness(10, 0, 0, 0)
-        };
+        private FlexLayout _buttonOnWaitingDriver;
         private ImageButton _phoneCallDriver;
         private ImageButton _cancelOrder;
 
@@ -131,7 +127,7 @@ namespace Taxi
         public bool OrderTaxiTimerTick()
         {
             TimeSpan time = new TimeSpan(0, 0, 0, 0, (int)_flyoutMenu.Timer.ElapsedMilliseconds);
-            SearchLabel.Text = $"Поиск...\n{new DateTimeOffset(2024, 1, 1, time.Hours, time.Minutes, time.Seconds, time.Milliseconds, TimeSpan.Zero).ToString("HH:mm:ss")}";
+            _timerLabel.Text = new DateTimeOffset(2024, 1, 1, time.Hours, time.Minutes, time.Seconds, time.Milliseconds, TimeSpan.Zero).ToString("HH:mm:ss");
             return _flyoutMenu.IsTimerStart;
         }
 
@@ -344,9 +340,11 @@ namespace Taxi
                 infoFrame.HeightRequest = 70;
             }
 
+            AbsoluteLayout layout = new AbsoluteLayout();
+
             SearchLabel = new Label()
             {
-                Text = "Поиск...\n00:00:00",
+                Text = "Поиск...",
                 Margin = new Thickness(0, 0, 0, 0),
                 FontAttributes = FontAttributes.Bold,
                 HorizontalOptions = LayoutOptions.Center,
@@ -355,22 +353,43 @@ namespace Taxi
                 FontSize = 30
             };
 
-            infoStackLayout.Children.Add(SearchLabel);
+            AbsoluteLayout.SetLayoutBounds(SearchLabel, new Rectangle(0.5, 0.2, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
+            AbsoluteLayout.SetLayoutFlags(SearchLabel, AbsoluteLayoutFlags.PositionProportional);
+
+            _timerLabel = new Label()
+            {
+                Text = "00:00:00",
+                Margin = new Thickness(0, 0, 0, 0),
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.Center,
+                TextColor = Color.Black,
+                FontSize = 20
+            };
+
+            AbsoluteLayout.SetLayoutBounds(_timerLabel, new Rectangle(0.1, 1, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
+            AbsoluteLayout.SetLayoutFlags(_timerLabel, AbsoluteLayoutFlags.PositionProportional);
 
             _cancelOrder = new ImageButton()
             {
-                HeightRequest = 75,
-                WidthRequest = 75,
+                HeightRequest = 70,
+                WidthRequest = 70,
                 CornerRadius = 50,
                 BackgroundColor = Color.White,
                 Source = ImageSource.FromResource("Taxi.Images.cancel.png"),
                 VerticalOptions = LayoutOptions.CenterAndExpand,
                 HorizontalOptions = LayoutOptions.CenterAndExpand,
                 Aspect = Aspect.AspectFill,
-                Margin = new Thickness(260, -85, 0, 0),
+                Margin = new Thickness(0, 0, 0, 0),
             };
 
-            infoStackLayout.Children.Add(_cancelOrder);
+            AbsoluteLayout.SetLayoutBounds(_cancelOrder, new Rectangle(0.97, 0.5, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
+            AbsoluteLayout.SetLayoutFlags(_cancelOrder, AbsoluteLayoutFlags.PositionProportional);
+
+            infoStackLayout.Children.Add(layout);
+            layout.Children.Add(SearchLabel);
+            layout.Children.Add(_timerLabel);
+            layout.Children.Add(_cancelOrder);
+            
 
             if (!_isFastSearch)
             {
@@ -507,6 +526,14 @@ namespace Taxi
             {
                 _fastSearchInfo.Text = "Вы воспользовались срочным поиском";
             }
+
+            _buttonOnWaitingDriver = new FlexLayout
+            {
+                WidthRequest = 300,
+                HorizontalOptions = LayoutOptions.Center,
+                Direction = FlexDirection.Row,
+                Margin = new Thickness(10, 0, 0, 0)
+            };
 
             _buttonOnWaitingDriver.Children.Clear();
             _buttonOnWaitingDriver.Children.Add(_phoneCallDriver);

@@ -8,7 +8,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Taxi.Authorization">
-    <Position X="12.5" Y="2.75" Width="3" />
+    <Position X="12.75" Y="2.75" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAgAAAAAAAAEAAEAAAgAAAAAQAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Authorization.xaml.cs</FileName>
@@ -39,7 +39,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Taxi.HistoryOrdersPage">
-    <Position X="9.75" Y="0.5" Width="2.5" />
+    <Position X="10" Y="0.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAACAAAAAAAAAAAIAAAAAAQAEAAAAAAIAAAAAA=</HashCode>
       <FileName>HistoryOrdersPage.xaml.cs</FileName>
