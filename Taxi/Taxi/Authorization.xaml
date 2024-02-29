@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Taxi.Authorization"
+             xmlns:pages="clr-namespace:Taxi"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="White">
+
+    <AbsoluteLayout x:Name="stackLayout">
+        <Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="0"  AbsoluteLayout.LayoutBounds="0, 0, 1, 100" AbsoluteLayout.LayoutFlags="WidthProportional">
+            <Label Text="Авторизация" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
+        </Frame>
+        <StackLayout HorizontalOptions="Center" AbsoluteLayout.LayoutBounds="0.5, 0.5, 350, AutoSize" AbsoluteLayout.LayoutFlags="PositionProportional">
+            <Entry x:Name="loginEntry" Placeholder="Логин" WidthRequest="300" Margin="0, 0, 0, 16" />
+            <Entry x:Name="passwordEntry" Placeholder="Пароль" IsPassword="True" WidthRequest="300" Margin="0, 0, 0, 16" />
+            <Button x:Name="buttonLogin" WidthRequest="300" HeightRequest="40" Text="Авторизоваться" Clicked="Authorization_Click" />
+            <FlexLayout Direction="Row" WidthRequest="300" HeightRequest="40">
+                <Label Text="Сохранить логин и пароль" FontFamily="Arial" FontAttributes="Bold" WidthRequest="120" />
+                <Label WidthRequest="125" />
+                <Switch IsToggled="false" x:Name="swichPasswordSave" OnColor="#50cff2" ThumbColor="#2196F3"  />
+            </FlexLayout>
+            <FlexLayout Direction="Row" WidthRequest="300" HeightRequest="40" JustifyContent="End">
+                <Button x:Name="buttonRegistration" Text="Еще нет аккаунта?" TextColor="Gray" BackgroundColor="White" BorderColor="White" FontFamily="Arial" FontAttributes="Bold" Clicked="Registration_Click" />
+            </FlexLayout>
+        </StackLayout>
+        <Frame x:Name="loadingFrame" BackgroundColor="#00000000" AbsoluteLayout.LayoutBounds="0.99, 0.99" AbsoluteLayout.LayoutFlags="PositionProportional" />
+    </AbsoluteLayout>
+</ContentPage>

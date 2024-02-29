@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Taxi.Registration"
+             xmlns:pages="clr-namespace:Taxi"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="White">
+
+    <AbsoluteLayout x:Name="stackLayout">
+        <Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="0" AbsoluteLayout.LayoutBounds="0, 0, 1, 100" AbsoluteLayout.LayoutFlags="WidthProportional">
+            <Label Text="Регистрация" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
+        </Frame>
+        <StackLayout HorizontalOptions="Center" AbsoluteLayout.LayoutBounds="0.5, 0.5, 350, AutoSize" AbsoluteLayout.LayoutFlags="PositionProportional">
+            <Entry x:Name="loginEntry" Placeholder="Логин" WidthRequest="300" Margin="0, 0, 0, 16" />
+            <Entry x:Name="nameEntry" Placeholder="Имя" WidthRequest="300" Margin="0, 0, 0, 16" />
+            <Entry x:Name="lastNameEntry" Placeholder="Фамилия" WidthRequest="300" Margin="0, 0, 0, 16" />
+            <Entry x:Name="phoneEntry" Placeholder="Телефон" WidthRequest="300" Margin="0, 0, 0, 16" Keyboard="Telephone"/>
+            <Entry x:Name="passwordEntry" Placeholder="Пароль" IsPassword="True" WidthRequest="300" Margin="0, 0, 0, 16" />
+            <Entry x:Name="passwordThoEntry" Placeholder="Повторите Пароль" IsPassword="True" WidthRequest="300" Margin="0, 0, 0, 16" />
+            <FlexLayout Direction="Row" WidthRequest="280" HeightRequest="50">
+                <Button Text="Согласиться с пользовательским соглашением" FontFamily="Arial" FontAttributes="Bold" WidthRequest="250" TextColor="Gray" BackgroundColor="White" FontSize="12" Clicked="CustomResolution_Click"/>
+                <Switch IsToggled="false" x:Name="swichAgree" OnColor="#21c5f3" ThumbColor="#2196F3" />
+            </FlexLayout>
+            <Button x:Name="buttonLogin" WidthRequest="300" HeightRequest="40" Text="Регистрация" Clicked="Registration_Click" />
+        </StackLayout>
+        <Frame x:Name="loadingFrame" BackgroundColor="#00000000" AbsoluteLayout.LayoutBounds="0.99, 0.99" AbsoluteLayout.LayoutFlags="PositionProportional" />
+    </AbsoluteLayout>
+</ContentPage>
