@@ -410,7 +410,7 @@ namespace Taxi
             string fio = await DataBaseApi.GetFioByLogin((string)login);
 
             profile.Text = fio;
-        }
+        } 
 
         private async void SetRole()
         {
@@ -537,4 +537,6 @@ namespace Taxi
             }
         }
     }
+
+    //test gewrwg
 }
