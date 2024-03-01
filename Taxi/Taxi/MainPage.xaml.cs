@@ -114,11 +114,11 @@ namespace Taxi
 
         public async void OrderTaxi_Click(object sender, EventArgs e)
         {
+            SetOptionsInfoFrameOnSearch();
+
             SetSearchStatus();
 
             SearchOnMap();
-
-            SetOptionsInfoFrameOnSearch();
 
             _idOrder = await DataBaseApi.AddOrderTaxi(RouteInfo.Distance, RouteInfo.Duration, RouteInfo.DurationInTraffic, RouteInfo.StartShort, RouteInfo.FinishShort, RouteInfo.StartLong, RouteInfo.FinishLong, RouteInfo.StartCoorders, RouteInfo.FinishCoorders, _priority, _price, _rate, _paymentType);
             _flyoutMenu.SearchTaxi(_idOrder);
@@ -359,7 +359,7 @@ namespace Taxi
                 FontSize = 30
             };
 
-            AbsoluteLayout.SetLayoutBounds(SearchLabel, new Rectangle(0.5, 0.2, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
+            AbsoluteLayout.SetLayoutBounds(SearchLabel, new Rectangle(0.55, 0.2, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
             AbsoluteLayout.SetLayoutFlags(SearchLabel, AbsoluteLayoutFlags.PositionProportional);
 
             _timerLabel = new Label()
@@ -435,6 +435,8 @@ namespace Taxi
             {
                 infoFrame.HeightRequest = 180;
             }
+
+            infoStackLayout.Children.Clear();
 
             fast.Children.Clear();
 

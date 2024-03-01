@@ -1,5 +1,4 @@
-﻿using Java.Util;
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
@@ -16,6 +15,8 @@ namespace Taxi
         private double _metrs = 0;
         private Xamarin.Essentials.Location _nowLocation;
         private Xamarin.Essentials.Location _lastLocation;
+        private int _timeToGetLocation = 2;
+        private int _minPrice;
 
         public Taxameter()
         {
@@ -24,7 +25,7 @@ namespace Taxi
 
         public bool IsActive { get; private set; } = false;
 
-        public async void Start()
+        public async Task<string> Start()
         {
             if(_isLaunched == false)
             {
@@ -32,19 +33,31 @@ namespace Taxi
 
                 JsonPrice price = await DataBaseApi.GetActualPrice();
 
-                _lastLocation = await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.Best, TimeSpan.FromSeconds(1)), new CancellationTokenSource().Token);
+                _lastLocation = await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.High, TimeSpan.FromSeconds(_timeToGetLocation)), new CancellationTokenSource().Token);
 
-                _interval = 60 / price.PricePerMin * 1000;
+                _interval = (60 / price.PricePerMin - _timeToGetLocation) * 1000;
                 _rubelPerKm = price.PricePerKm;
+                _minPrice = price.MinPrice;
+
+                _price = price.StartPrice;
             }
 
             IsActive = true;
             CountPrice();
+
+            return null;
         }
 
         public void Stop()
         {
             IsActive = false;
+        }
+
+        public void End()
+        {
+            IsActive = false;
+
+            _price = Math.Max(_price, _minPrice);
         }
 
         public int GetNowPrice()
@@ -58,11 +71,11 @@ namespace Taxi
             {
                 _price += 1;
 
-                _nowLocation = await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.Best, TimeSpan.FromSeconds(1)), new CancellationTokenSource().Token);
+                _nowLocation = await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.High, TimeSpan.FromSeconds(_timeToGetLocation)), new CancellationTokenSource().Token);
 
                 _metrs += Xamarin.Essentials.Location.CalculateDistance(_lastLocation, _nowLocation, DistanceUnits.Kilometers) * 1000;
 
-                if ((_usedKm - Math.Floor(_metrs / 1000)) > 0)
+                if ((Math.Floor(_metrs / 1000) - _usedKm) > 0)
                 {
                     _usedKm += Convert.ToInt32(_usedKm - Math.Floor(_metrs / 1000));
                     _price += _rubelPerKm;

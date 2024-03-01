@@ -56,7 +56,7 @@ namespace Taxi
             //await DisplayAlert("Ok", $"{location.Latitude.ToString().Replace(",", ".")},{location.Longitude.ToString().Replace(",", ".")}", "Ok");
             //await location.OpenMapsAsync();
 
-            double test = Location.CalculateDistance(new Location(42.358056, -71.063611), new Location(37.783333, -122.416667), DistanceUnits.Kilometers);
+            double test = Location.CalculateDistance(await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.High, TimeSpan.FromSeconds(2)), new CancellationTokenSource().Token), await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.High, TimeSpan.FromSeconds(2)), new CancellationTokenSource().Token), DistanceUnits.Kilometers);
             DisplayAlert("Ok", $"{test}", "Ok");
         }
     }

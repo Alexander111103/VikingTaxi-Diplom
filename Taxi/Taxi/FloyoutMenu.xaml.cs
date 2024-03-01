@@ -23,7 +23,7 @@ namespace Taxi
 
         public Stopwatch Timer = new Stopwatch();
         public bool IsTimerStart = false;
-        public Taxameter Taxameter = new Taxameter();
+        public Taxameter Taxameter;
 
         private string _driverCoorders;
 
@@ -95,6 +95,8 @@ namespace Taxi
 
                 EnableAllButtons();
             }
+
+            IsPresented = false;
         }
 
         public async void HistoryOrders_Click(object sender, EventArgs e)
@@ -112,6 +114,8 @@ namespace Taxi
                 await Task.Delay(1000);
                 EnableAllButtons();
             }
+
+            IsPresented = false;
         }
 
         public async void MyAdresses_Click(object sender, EventArgs e)
@@ -129,6 +133,8 @@ namespace Taxi
                 await Task.Delay(1000);
                 EnableAllButtons();
             }
+
+            IsPresented = false;
         }
 
         public async void Game_Click(object sender, EventArgs e)
@@ -146,6 +152,8 @@ namespace Taxi
                 await Task.Delay(1000);
                 EnableAllButtons();
             }
+
+            IsPresented = false;
         }
 
         public async void Options_Click(object sender, EventArgs e)
@@ -163,6 +171,8 @@ namespace Taxi
                 await Task.Delay(1000);
                 EnableAllButtons();
             }
+
+            IsPresented = false;
         }
 
         public async void InfoTaxi_Click(object sender, EventArgs e)
@@ -180,6 +190,8 @@ namespace Taxi
                 await Task.Delay(1000);
                 EnableAllButtons();
             }
+
+            IsPresented = false;
         }
 
         public void Exit_Click(object sender, EventArgs e)
@@ -202,6 +214,8 @@ namespace Taxi
                 await Task.Delay(1000);
                 EnableAllButtons();
             }
+
+            IsPresented = false;
         }
 
         public async void SearchOrderDriver_Click(object sender, EventArgs e)
@@ -219,6 +233,8 @@ namespace Taxi
                 await Task.Delay(1000);
                 EnableAllButtons();
             }
+
+            IsPresented = false;
         }
 
         public async void HistoryOrdersDriver_Click(object sender, EventArgs e)
@@ -236,6 +252,8 @@ namespace Taxi
                 await Task.Delay(1000);
                 EnableAllButtons();
             }
+
+            IsPresented = false;
         }
 
         public async void MyCarsDriver_Click(object sender, EventArgs e)
@@ -253,6 +271,8 @@ namespace Taxi
                 await Task.Delay(1000);
                 EnableAllButtons();
             }
+
+            IsPresented = false;
         }
 
         public async void AdminHub_Click(object sender, EventArgs e)
@@ -270,6 +290,8 @@ namespace Taxi
                 await Task.Delay(1000);
                 EnableAllButtons();
             }
+
+            IsPresented = false;
         }
 
         private void RecolorButtons()
@@ -395,7 +417,9 @@ namespace Taxi
 
         public async void Drive(int idOrder)
         {
-            Taxameter.Start();
+            this.Taxameter = new Taxameter();
+
+            await Taxameter.Start();
 
             Device.StartTimer(TimeSpan.FromSeconds(1), _mainPage.TaxomertTick);
         }
