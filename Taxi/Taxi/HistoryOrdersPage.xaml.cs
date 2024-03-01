@@ -52,9 +52,12 @@ namespace Taxi
 
         public async void testLocation_Click(object sender, EventArgs e)
         {
-            var location = await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.Best, TimeSpan.FromSeconds(3)), new CancellationTokenSource().Token);
+            //var location = await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.Best, TimeSpan.FromSeconds(3)), new CancellationTokenSource().Token);
             //await DisplayAlert("Ok", $"{location.Latitude.ToString().Replace(",", ".")},{location.Longitude.ToString().Replace(",", ".")}", "Ok");
-            await location.OpenMapsAsync();
+            //await location.OpenMapsAsync();
+
+            double test = Location.CalculateDistance(new Location(42.358056, -71.063611), new Location(37.783333, -122.416667), DistanceUnits.Kilometers);
+            DisplayAlert("Ok", $"{test}", "Ok");
         }
     }
 }

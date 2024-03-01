@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Taxi
 {
-    internal class DataBaseApi
+    public class DataBaseApi
     {
         private const string Url = "http://taxiviking.ru";
         private const string ApiKey = "k6uy6ien-v9cj-wi5h-nnd0-skp7m423s8jo";
@@ -27,7 +27,8 @@ namespace Taxi
             GetDriverCoordersByIdOrder,
             GetTaxiInfoByIdOrder,
             FastSearch,
-            SetStatusToWaitingDriverByIdOrder
+            SetStatusToWaitingDriverByIdOrder,
+            GetActualPrice
         }
 
         public static async Task<int> GetCountByLogin(string login)
@@ -180,6 +181,13 @@ namespace Taxi
             JsonTaxiInfo result = JsonConvert.DeserializeObject<JsonTaxiInfo>(await RequestApiGetJson(ApiFile.GetTaxiInfoByIdOrder, inputData));
 
             return result;
+        }
+
+        public static async Task<JsonPrice> GetActualPrice()
+        {
+            JsonPrice price = JsonConvert.DeserializeObject<JsonPrice>(await RequestApiGetJson(ApiFile.GetActualPrice, new Dictionary<string, string>()));
+
+            return price;
         }
 
         public static async void FastSearch(int idOrder)

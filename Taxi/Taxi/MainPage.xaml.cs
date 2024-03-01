@@ -58,7 +58,7 @@ namespace Taxi
 
             if (RouteInfo.Distance != null && RouteInfo.Distance != "")
             {
-                _price = GetPrice(RouteInfo.Distance, RouteInfo.DurationInTraffic);
+                _price = await GetPrice(RouteInfo.Distance, RouteInfo.DurationInTraffic);
 
                 routeAgreeButton.Clicked -= RouteAgree_Click;
 
@@ -129,6 +129,12 @@ namespace Taxi
             TimeSpan time = new TimeSpan(0, 0, 0, 0, (int)_flyoutMenu.Timer.ElapsedMilliseconds);
             _timerLabel.Text = new DateTimeOffset(2024, 1, 1, time.Hours, time.Minutes, time.Seconds, time.Milliseconds, TimeSpan.Zero).ToString("HH:mm:ss");
             return _flyoutMenu.IsTimerStart;
+        }
+
+        public bool TaxomertTick()
+        {
+            SearchLabel.Text = "Таксометр запущен: " + _flyoutMenu.Taxameter.GetNowPrice() + " Руб.";
+            return _flyoutMenu.IsTaxometrStart;
         }
 
         public void OpenMenu_Click(object sender, EventArgs e)
@@ -622,12 +628,14 @@ namespace Taxi
             return await map.EvaluateJavaScriptAsync($"GetCookie('{name}')");
         }
 
-        private string GetPrice(string distance, string duration)
+        private async Task<string> GetPrice(string distance, string duration)
         {
-            const int StartPrice = 75;
-            const int MinPrice = 150;
-            const int PriceToKm = 12;
-            const int PriceToMin = 5;
+            JsonPrice priceInfo = await DataBaseApi.GetActualPrice();
+
+            int StartPrice = priceInfo.StartPrice;
+            int MinPrice = priceInfo.MinPrice;
+            int PriceToKm = priceInfo.PricePerKm;
+            int PriceToMin = priceInfo.PricePerMin;
 
             double km = 0;
             double min = 0;
