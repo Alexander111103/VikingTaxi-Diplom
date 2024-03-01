@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Java.Util;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
@@ -7,7 +8,6 @@ namespace Taxi
 {
     public class Taxameter
     {
-        private bool _isActive = false;
         private bool _isLaunched = false;
         private int _interval;
         private float _rubelPerKm;
@@ -17,10 +17,12 @@ namespace Taxi
         private Xamarin.Essentials.Location _nowLocation;
         private Xamarin.Essentials.Location _lastLocation;
 
-        public Taxameter() 
+        public Taxameter()
         {
-            
+
         }
+
+        public bool IsActive { get; private set; } = false;
 
         public async void Start()
         {
@@ -36,13 +38,13 @@ namespace Taxi
                 _rubelPerKm = price.PricePerKm;
             }
 
-            _isActive = true;
+            IsActive = true;
             CountPrice();
         }
 
         public void Stop()
         {
-            _isActive = false;
+            IsActive = false;
         }
 
         public int GetNowPrice()
@@ -52,7 +54,7 @@ namespace Taxi
 
         private async void CountPrice()
         {
-            while (_isActive)
+            while (IsActive)
             {
                 _price += 1;
 

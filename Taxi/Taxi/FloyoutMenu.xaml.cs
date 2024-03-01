@@ -24,7 +24,6 @@ namespace Taxi
         public Stopwatch Timer = new Stopwatch();
         public bool IsTimerStart = false;
         public Taxameter Taxameter = new Taxameter();
-        public bool IsTaxometrStart = false;
 
         private string _driverCoorders;
 
@@ -397,7 +396,6 @@ namespace Taxi
         public async void Drive(int idOrder)
         {
             Taxameter.Start();
-            IsTaxometrStart = true;
 
             Device.StartTimer(TimeSpan.FromSeconds(1), _mainPage.TaxomertTick);
         }

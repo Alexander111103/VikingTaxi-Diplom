@@ -134,7 +134,7 @@ namespace Taxi
         public bool TaxomertTick()
         {
             SearchLabel.Text = "Таксометр запущен: " + _flyoutMenu.Taxameter.GetNowPrice() + " Руб.";
-            return _flyoutMenu.IsTaxometrStart;
+            return _flyoutMenu.Taxameter.IsActive;
         }
 
         public void OpenMenu_Click(object sender, EventArgs e)
