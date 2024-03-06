@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 
@@ -15,12 +14,12 @@ namespace Taxi
         private double _metrs = 0;
         private Xamarin.Essentials.Location _nowLocation;
         private Xamarin.Essentials.Location _lastLocation;
-        private int _timeToGetLocation = 2;
         private int _minPrice;
+        private int _idOrder;
 
-        public Taxameter()
+        public Taxameter(int idOrder)
         {
-
+            _idOrder = idOrder;
         }
 
         public bool IsActive { get; private set; } = false;
@@ -33,9 +32,9 @@ namespace Taxi
 
                 JsonPrice price = await DataBaseApi.GetActualPrice();
 
-                _lastLocation = await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.High, TimeSpan.FromSeconds(_timeToGetLocation)), new CancellationTokenSource().Token);
+                _lastLocation = GetLocationByCoorders(await DataBaseApi.GetDriverCoordersByIdOrder(_idOrder));
 
-                _interval = (60 / price.PricePerMin - _timeToGetLocation) * 1000;
+                _interval = 60 / price.PricePerMin;
                 _rubelPerKm = price.PricePerKm;
                 _minPrice = price.MinPrice;
 
@@ -67,24 +66,36 @@ namespace Taxi
 
         private async void CountPrice()
         {
+            DateTime timeWithInterval = DateTime.Now.Add(new TimeSpan(0, 0, _interval));
+
             while (IsActive)
             {
-                _price += 1;
-
-                _nowLocation = await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.High, TimeSpan.FromSeconds(_timeToGetLocation)), new CancellationTokenSource().Token);
-
-                _metrs += Xamarin.Essentials.Location.CalculateDistance(_lastLocation, _nowLocation, DistanceUnits.Kilometers) * 1000;
-
-                if ((Math.Floor(_metrs / 1000) - _usedKm) > 0)
+                if (timeWithInterval.Subtract(DateTime.Now).Seconds <= 0)
                 {
-                    _usedKm += Convert.ToInt32(_usedKm - Math.Floor(_metrs / 1000));
-                    _price += _rubelPerKm;
+                    _price += 1;
+
+                    _nowLocation = GetLocationByCoorders(await DataBaseApi.GetDriverCoordersByIdOrder(_idOrder));
+
+                    _metrs += Xamarin.Essentials.Location.CalculateDistance(_lastLocation, _nowLocation, DistanceUnits.Kilometers) * 1000;
+
+                    if (((int)Math.Floor(_metrs / 1000) - _usedKm) > 0)
+                    {
+                        _price += _rubelPerKm * ((int)Math.Floor(_metrs / 1000) - _usedKm);
+                        _usedKm += (int)Math.Floor(_metrs / 1000) - _usedKm;
+                    }
+
+                    _lastLocation = _nowLocation;
+
+                    timeWithInterval = DateTime.Now.Add(new TimeSpan(0, 0, _interval));
                 }
-
-                _lastLocation = _nowLocation;
-
-                await Task.Delay(_interval);
             }
+        }
+
+        private Location GetLocationByCoorders(string coorders)
+        {
+            string[] coordersArray = coorders.Split(',');
+
+            return new Location(Convert.ToDouble(coordersArray[0].Trim().Replace('.', ',')), Convert.ToDouble(coordersArray[1].Trim().Replace('.', ',')));
         }
     }
 }

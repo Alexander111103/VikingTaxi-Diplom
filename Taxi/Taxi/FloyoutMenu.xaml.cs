@@ -417,7 +417,7 @@ namespace Taxi
 
         public async void Drive(int idOrder)
         {
-            this.Taxameter = new Taxameter();
+            this.Taxameter = new Taxameter(idOrder);
 
             await Taxameter.Start();
 

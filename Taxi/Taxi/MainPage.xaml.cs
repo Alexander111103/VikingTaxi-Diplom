@@ -52,15 +52,15 @@ namespace Taxi
 
         public async void RouteAgree_Click(object sender, EventArgs e)
         {
+            routeAgreeButton.Clicked -= RouteAgree_Click;
+
             await Task.Delay(500);
 
             RouteInfo = JsonConvert.DeserializeObject<JsonRouteInfo>(Convert.ToString(await map.EvaluateJavaScriptAsync("GetRouteInfo()")).Replace(@"\", ""));
 
             if (RouteInfo.Distance != null && RouteInfo.Distance != "")
             {
-                _price = await GetPrice(RouteInfo.Distance, RouteInfo.DurationInTraffic);
-
-                routeAgreeButton.Clicked -= RouteAgree_Click;
+                _price = await GetPrice(RouteInfo.Distance, RouteInfo.DurationInTraffic); 
 
                 await AnimateHeightInfoFrame(200, 500);
 
@@ -88,6 +88,8 @@ namespace Taxi
             }
             else
             {
+                routeAgreeButton.Clicked += RouteAgree_Click;
+
                 await map.EvaluateJavaScriptAsync("EditRoute()");
                 await DisplayAlert("Ошибка", "Вы не указали маршрут", "OK");
             }
