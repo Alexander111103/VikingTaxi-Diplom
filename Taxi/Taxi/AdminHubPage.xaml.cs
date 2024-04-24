@@ -39,12 +39,22 @@ namespace Taxi
         private async void SetCookie() 
         {
             App.Current.Properties.TryGetValue("login", out object login);
-            string password = await DataBaseApi.GetPasswordByLogin($"{login}");
+            bool isAdmin = false;
 
-            panel.Cookies = new CookieContainer();
+            do
+            {
+                string password = await DisplayPromptAsync("Проверка", "введите правильный пароль");
+                isAdmin = await DataBaseApi.CheckPassword($"{login}", password);
 
-            panel.Cookies.Add(new Cookie("userLogin", $"{login}", "/", "taxiviking.ru"));
-            panel.Cookies.Add(new Cookie("userPassword", password, "/", "taxiviking.ru"));
+                if (isAdmin)
+                { 
+                    panel.Source = "http://taxiviking.ru/admin/";
+                    panel.Cookies = new CookieContainer();
+
+                    panel.Cookies.Add(new Cookie("userLogin", $"{login}", "/", "taxiviking.ru"));
+                    panel.Cookies.Add(new Cookie("userPassword", password, "/", "taxiviking.ru"));
+                }
+            }while (!isAdmin);
         }
     }
 }

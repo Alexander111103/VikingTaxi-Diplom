@@ -34,7 +34,7 @@
   <Class Name="Taxi.FlyoutMenu">
     <Position X="0.5" Y="2.5" Width="3.5" />
     <TypeIdentifier>
-      <HashCode>ABHAAEAQgAgEAAAACIACCBQAYACBhJAADAgZIAAGQAA=</HashCode>
+      <HashCode>ABHAAMAQgAgEAAAACIACCBQAYACBhJAADAgZIAAGQAA=</HashCode>
       <FileName>FloyoutMenu.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -92,6 +92,13 @@
     <TypeIdentifier>
       <HashCode>AkIAACAAgDAAABAAEAACAAAAAAAABAEAIRACAAAAAIA=</HashCode>
       <FileName>Taxameter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Taxi.AdminHubPage">
+    <Position X="8" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAAIAAAAAAQAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AdminHubPage.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
