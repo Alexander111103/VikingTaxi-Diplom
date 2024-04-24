@@ -16,6 +16,8 @@ namespace Taxi
 			InitializeComponent ();
 
             _flyoutMenu = menu;
+
+            alert.Source = new HtmlWebViewSource { Html="<button onclick=\"confirm('6')\">X</button>" };
         }
 
         public void OpenMenu_Click(object sender, EventArgs e)

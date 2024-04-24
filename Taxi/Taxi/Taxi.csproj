@@ -52,6 +52,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="AdminHubPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Authorization.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

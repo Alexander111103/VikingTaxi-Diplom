@@ -12,6 +12,7 @@ namespace Taxi
     {
         private MainPage _mainPage;
         private HistoryOrdersPage _historyOrdersPage;
+        private AdminHubPage _adminHubPage;
 
         private List<Button> _buttons = new List<Button>();
         private Button _searchOrderDriverButton;
@@ -280,7 +281,7 @@ namespace Taxi
             if (PageNumber != 7)
             {
                 DisableAllButtons();
-                Detail = new NavigationPage(_historyOrdersPage);
+                Detail = new NavigationPage(_adminHubPage);
 
                 _adminHub.TextColor = Color.FromHex("#A52A2A");
                 _adminHub.BorderColor = Color.FromHex("#902537");
@@ -532,6 +533,8 @@ namespace Taxi
                 Layout.Children.Add(_adminHub);
 
                 _buttons.Add(_adminHub);
+
+                _adminHubPage = new AdminHubPage(this);
             }
         }
 

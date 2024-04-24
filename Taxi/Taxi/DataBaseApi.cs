@@ -28,7 +28,8 @@ namespace Taxi
             GetTaxiInfoByIdOrder,
             FastSearch,
             SetStatusToWaitingDriverByIdOrder,
-            GetActualPrice
+            GetActualPrice,
+            GetPasswordByLogin
         }
 
         public static async Task<int> GetCountByLogin(string login)
@@ -157,6 +158,18 @@ namespace Taxi
             JsonObjecktOne resultCount = JsonConvert.DeserializeObject<JsonObjecktOne>(await RequestApiGetJson(ApiFile.GetRoleByLogin, inputData));
 
             return resultCount.Value;
+        }
+
+        public static async Task<string> GetPasswordByLogin(string login) 
+        {
+            Dictionary<string, string> inputData = new Dictionary<string, string>
+            {
+                { "login", login }
+            };
+
+            JsonObjecktOne result = JsonConvert.DeserializeObject<JsonObjecktOne>(await RequestApiGetJson(ApiFile.GetPasswordByLogin, inputData));
+
+            return result.Value;
         }
 
         public static async Task<string> GetDriverCoordersByIdOrder(int idOrder)

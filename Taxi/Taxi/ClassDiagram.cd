@@ -8,7 +8,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Taxi.Authorization">
-    <Position X="12.75" Y="2.75" Width="2.75" />
+    <Position X="10.75" Y="2.75" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAgAAAAAAAAEAAEAAAgAAAAAQAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Authorization.xaml.cs</FileName>
@@ -27,7 +27,7 @@
       </Enum>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAAARAAAAAAAAAgAABAAgBAAEQIAAAJAjBCAAIBAAAA=</HashCode>
+      <HashCode>AAAERAAAAAAAAAgAABAAgBAAEQIAAAJAjBCAAIBAAAA=</HashCode>
       <FileName>DataBaseApi.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -39,7 +39,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Taxi.HistoryOrdersPage">
-    <Position X="10" Y="0.5" Width="2.5" />
+    <Position X="8" Y="0.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAACAAAAAAAAAAAIAAAAAAQAEAAAAAAIAAAAAA=</HashCode>
       <FileName>HistoryOrdersPage.xaml.cs</FileName>
@@ -69,15 +69,29 @@
   <Class Name="Taxi.MainPage">
     <Position X="4.25" Y="0.5" Width="3.5" />
     <TypeIdentifier>
-      <HashCode>A4BAAAQCEAIMIBgiESAgIgQCABa5QYQSAAACZYABQEA=</HashCode>
+      <HashCode>A4BAAAQCEAIMIBgiESAgKgQCAB65QYQSAAACZYABQEA=</HashCode>
       <FileName>MainPage.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Taxi.Registration">
-    <Position X="12.75" Y="0.5" Width="2.75" />
+    <Position X="10.75" Y="0.5" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAgAAAAAAAAAAAEAAAgAAAAIAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Registration.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Taxi.JsonPrice">
+    <Position X="9" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAEAAAAAAAAAAAACAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>JsonPrice.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Taxi.Taxameter">
+    <Position X="14.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AkIAACAAgDAAABAAEAACAAAAAAAABAEAIRACAAAAAIA=</HashCode>
+      <FileName>Taxameter.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
