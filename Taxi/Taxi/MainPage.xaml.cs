@@ -133,12 +133,6 @@ namespace Taxi
             return _flyoutMenu.IsTimerStart;
         }
 
-        public bool TaxomertTick()
-        {
-            SearchLabel.Text = "Таксометр запущен: " + _flyoutMenu.Taxameter.GetNowPrice() + " Руб.";
-            return _flyoutMenu.Taxameter.IsActive;
-        }
-
         public void OpenMenu_Click(object sender, EventArgs e)
         {   
             if(_flyoutMenu.IsPresented == false)
@@ -577,13 +571,13 @@ namespace Taxi
 
             SearchLabel = new Label()
             {
-                Text = "Таксометр запущен: " + "0" + " Руб.",
+                Text = "Таксометр запущен.",
                 Margin = new Thickness(0, 15, 0, 0),
                 FontAttributes = FontAttributes.Bold,
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.Center,
                 TextColor = Color.Black,
-                FontSize = 30
+                FontSize = 20
             };
 
             infoStackLayout.Children.Add(SearchLabel);

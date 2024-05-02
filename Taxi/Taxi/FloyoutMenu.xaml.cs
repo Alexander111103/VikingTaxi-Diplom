@@ -418,11 +418,7 @@ namespace Taxi
 
         public async void Drive(int idOrder)
         {
-            this.Taxameter = new Taxameter(idOrder);
-
-            await Taxameter.Start();
-
-            Device.StartTimer(TimeSpan.FromSeconds(1), _mainPage.TaxomertTick);
+            
         }
 
         private async Task<string> GetTimeWaitingDriver(string from, string to)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 
@@ -15,6 +16,7 @@ namespace Taxi
         private Xamarin.Essentials.Location _nowLocation;
         private Xamarin.Essentials.Location _lastLocation;
         private int _minPrice;
+        private int _timeToGetLocation = 2;
         private int _idOrder;
 
         public Taxameter(int idOrder)
@@ -32,7 +34,7 @@ namespace Taxi
 
                 JsonPrice price = await DataBaseApi.GetActualPrice();
 
-                _lastLocation = GetLocationByCoorders(await DataBaseApi.GetDriverCoordersByIdOrder(_idOrder));
+                _lastLocation = await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.High, TimeSpan.FromSeconds(_timeToGetLocation)), new CancellationTokenSource().Token); ;
 
                 _interval = 60 / price.PricePerMin;
                 _rubelPerKm = price.PricePerKm;
@@ -74,7 +76,7 @@ namespace Taxi
                 {
                     _price += 1;
 
-                    _nowLocation = GetLocationByCoorders(await DataBaseApi.GetDriverCoordersByIdOrder(_idOrder));
+                    _nowLocation = await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.High, TimeSpan.FromSeconds(_timeToGetLocation)), new CancellationTokenSource().Token); ;
 
                     _metrs += Xamarin.Essentials.Location.CalculateDistance(_lastLocation, _nowLocation, DistanceUnits.Kilometers) * 1000;
 
@@ -89,13 +91,6 @@ namespace Taxi
                     timeWithInterval = DateTime.Now.Add(new TimeSpan(0, 0, _interval));
                 }
             }
-        }
-
-        private Location GetLocationByCoorders(string coorders)
-        {
-            string[] coordersArray = coorders.Split(',');
-
-            return new Location(Convert.ToDouble(coordersArray[0].Trim().Replace('.', ',')), Convert.ToDouble(coordersArray[1].Trim().Replace('.', ',')));
         }
     }
 }
