@@ -20,11 +20,10 @@ namespace Taxi
         private Button _myCarsDriverButton;
         private Button _adminHub;
 
-        public int PageNumber;
+        public int PageNumber { get; private set; }
 
         public Stopwatch Timer = new Stopwatch();
         public bool IsTimerStart = false;
-        public Taxameter Taxameter;
 
         private string _driverCoorders;
 
@@ -418,7 +417,48 @@ namespace Taxi
 
         public async void Drive(int idOrder)
         {
-            
+            string status;
+            bool isDriving = true;
+
+            while (isDriving)
+            {
+                await Task.Delay(new TimeSpan(0, 0, 10));
+
+                status = await DataBaseApi.GetStatusOrderById(idOrder);
+
+                if (status == "drive")
+                {
+                    _driverCoorders = await DataBaseApi.GetDriverCoordersByIdOrder(idOrder);
+                    _mainPage.SetDriveStatus(_driverCoorders);
+                    _mainPage.DriveOnMap(_driverCoorders);
+                }
+                else
+                {
+                    isDriving = false;
+
+                    string rating = await DisplayActionSheet("Как вы оцените поездку?", null, null, "5 Звезд", "4 Звезды", "3 Звезды", "2 Звезды", "1 Звезда");
+
+                    if (rating == null)
+                    {
+                        rating = "0 Звезд";
+                    }
+                    else
+                    {
+                        DataBaseApi.AddDriverRatingByOrderId(idOrder, Convert.ToInt32(Convert.ToString(rating[0])));
+                    }
+
+                    DataBaseApi.SetRatingOrderById(idOrder, Convert.ToInt32(Convert.ToString(rating[0])));
+
+                    await DisplayAlert("Благодарность", "Спасибо за поезду <3", "Ок");
+
+                    _mainPage = new MainPage(this);
+
+                    if (PageNumber == 0)
+                    {
+                        Detail = new NavigationPage(_mainPage);
+                    }
+                }
+            }
         }
 
         private async Task<string> GetTimeWaitingDriver(string from, string to)

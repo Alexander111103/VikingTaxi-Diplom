@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using static Android.Resource;
 
 namespace Taxi
 {
@@ -28,7 +29,9 @@ namespace Taxi
             GetTaxiInfoByIdOrder,
             FastSearch,
             SetStatusToWaitingDriverByIdOrder,
-            GetActualPrice
+            GetActualPrice,
+            SetRatingOrderById,
+            AddDriverRatingByOrderId
         }
 
         public static async Task<int> GetCountByLogin(string login)
@@ -211,6 +214,28 @@ namespace Taxi
             };
 
             await _httpClient.PostAsync(GetUrl(ApiFile.SetStatusToWaitingDriverByIdOrder), new FormUrlEncodedContent(inputData));
+        }
+
+        public static async void SetRatingOrderById(int idOrder, int rating)
+        {
+            Dictionary<string, string> inputData = new Dictionary<string, string>
+            {
+                { "id", $"{idOrder}" },
+                { "rating", $"{rating}"}
+            };
+
+            await _httpClient.PostAsync(GetUrl(ApiFile.SetRatingOrderById), new FormUrlEncodedContent(inputData));
+        }
+
+        public static async void AddDriverRatingByOrderId(int idOrder, int rating)
+        {
+            Dictionary<string, string> inputData = new Dictionary<string, string>
+            {
+                { "id", $"{idOrder}" },
+                { "rating", $"{rating}"}
+            };
+
+            await _httpClient.PostAsync(GetUrl(ApiFile.AddDriverRatingByOrderId), new FormUrlEncodedContent(inputData));
         }
 
         private static string GetUrl(ApiFile name)
