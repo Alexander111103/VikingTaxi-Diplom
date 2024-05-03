@@ -80,21 +80,21 @@ namespace Taxi
                             App.Current.Properties.Remove("login");
                         }
 
+                        if (App.Current.Properties.TryGetValue("password", out password))
+                        {
+                            App.Current.Properties.Remove("password");
+                        }
+
                         App.Current.Properties.Add("login", loginEntry.Text);
+                        App.Current.Properties.Add("password", passwordEntry.Text);
 
                         if (swichPasswordSave.IsToggled)
                         {
-                            if (App.Current.Properties.TryGetValue("password", out password))
-                            {
-                                App.Current.Properties.Remove("password");
-                            }
-
                             if (App.Current.Properties.TryGetValue("saveSwitch", out saveSwitch))
                             {
                                 App.Current.Properties.Remove("saveSwitch");
                             }
 
-                            App.Current.Properties.Add("password", passwordEntry.Text);
                             App.Current.Properties.Add("saveSwitch", swichPasswordSave.IsToggled);
                         }
 
