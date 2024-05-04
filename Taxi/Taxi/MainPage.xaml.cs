@@ -3,6 +3,7 @@ using System.Net;
 using Xamarin.Forms;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace Taxi
 {
@@ -249,6 +250,18 @@ namespace Taxi
             }
         }
 
+        public void Cancel_Click(object sender, EventArgs e)
+        {
+            _cancelOrder.Clicked -= Cancel_Click;
+
+            _flyoutMenu.CanselOrder(_idOrder);
+        }
+
+        public void PhoneCallDriver_Click(object sender, EventArgs e)
+        {
+            PhoneDialer.Open(_phoneDriver);
+        }
+
         public async void WaitingDriverOnMap(string driverCoorders)
         {
             if (_flyoutMenu.PageNumber == 0)
@@ -384,6 +397,8 @@ namespace Taxi
                 Margin = new Thickness(0, 0, 0, 0),
             };
 
+            _cancelOrder.Clicked += Cancel_Click;
+
             AbsoluteLayout.SetLayoutBounds(_cancelOrder, new Rectangle(0.97, 0.5, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
             AbsoluteLayout.SetLayoutFlags(_cancelOrder, AbsoluteLayoutFlags.PositionProportional);
 
@@ -477,6 +492,8 @@ namespace Taxi
 
             _phoneDriver = taxiInfo.Phone;
 
+            _phoneCallDriver.Clicked += PhoneCallDriver_Click;
+
             _cancelOrder = new ImageButton
             {
                 HeightRequest = 75,
@@ -488,6 +505,8 @@ namespace Taxi
                 HorizontalOptions = LayoutOptions.CenterAndExpand,
                 Aspect = Aspect.AspectFill
             };
+
+            _cancelOrder.Clicked += Cancel_Click;
 
             _taxiImage = new Image
             {

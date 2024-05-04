@@ -31,7 +31,8 @@ namespace Taxi
             SetStatusToWaitingDriverByIdOrder,
             GetActualPrice,
             SetRatingOrderById,
-            AddDriverRatingByOrderId
+            AddDriverRatingByOrderId,
+            SetStatusToCanseledByIdOrder
         }
 
         public static async Task<int> GetCountByLogin(string login)
@@ -225,6 +226,16 @@ namespace Taxi
             };
 
             await _httpClient.PostAsync(GetUrl(ApiFile.SetRatingOrderById), new FormUrlEncodedContent(inputData));
+        }
+
+        public static async void SetStatusToCanseledByIdOrder(int idOrder)
+        {
+            Dictionary<string, string> inputData = new Dictionary<string, string>
+            {
+                { "id", $"{idOrder}" }
+            };
+
+            await _httpClient.PostAsync(GetUrl(ApiFile.SetStatusToCanseledByIdOrder), new FormUrlEncodedContent(inputData));
         }
 
         public static async void AddDriverRatingByOrderId(int idOrder, int rating)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -335,7 +336,7 @@ namespace Taxi
                 _mainPage.SearchLabel.FadeTo(1, 1000);
                 status = await DataBaseApi.GetStatusOrderById(idOrder);
 
-                if (status != "search")
+                if (status == "searched")
                 {
                     isSearch = false;
 
@@ -357,6 +358,7 @@ namespace Taxi
                     {
                         IsTimerStart = false;
                         DataBaseApi.SetStatusToWaitingDriverByIdOrder(idOrder, Timer.ElapsedMilliseconds);
+                        Timer.Stop();
 
                         _mainPage.State = "Waiting";
                         _mainPage.SetOptionsInfoFrameOnWaitingDriver(taxiInfo);
@@ -373,10 +375,8 @@ namespace Taxi
             string status;
             bool isWaiting = true;
 
-            Timer.Restart();
-
-            while(isWaiting)
-            { 
+            while (isWaiting)
+            {
                 await Task.Delay(new TimeSpan(0, 0, 10));
                 status = await DataBaseApi.GetStatusOrderById(idOrder);
 
@@ -410,6 +410,9 @@ namespace Taxi
                         _mainPage.SetOptionsInfoFrameOnDrive();
                         _mainPage.DriveOnMap(_driverCoorders);
                         Drive(idOrder);
+                        break;
+
+                    default: 
                         break;
                 }
             }
@@ -459,6 +462,14 @@ namespace Taxi
                     }
                 }
             }
+        }
+
+        public void CanselOrder(int idOrder)
+        {
+            DataBaseApi.SetStatusToCanseledByIdOrder(idOrder);
+
+            Navigation.RemovePage(this);
+            Navigation.PushAsync(new FlyoutMenu());
         }
 
         private async Task<string> GetTimeWaitingDriver(string from, string to)
