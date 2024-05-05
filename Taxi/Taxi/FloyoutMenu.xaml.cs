@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Plugin.LocalNotification;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
@@ -26,7 +27,7 @@ namespace Taxi
         public Stopwatch Timer = new Stopwatch();
         public bool IsTimerStart = false;
 
-        private string _driverCoorders;
+        public string DriverCoorders;
 
         public FlyoutMenu()
         {
@@ -74,7 +75,7 @@ namespace Taxi
                     switch (_mainPage.State)
                     {
                         case "Waiting":
-                            _mainPage.WaitingDriverOnMap(_driverCoorders);
+                            _mainPage.WaitingDriverOnMap(DriverCoorders);
                             break;
 
                         case "Search":
@@ -83,13 +84,13 @@ namespace Taxi
                             break;
 
                         case "WaitingUser":
-                            _mainPage.SetWaitingUserStatus(_driverCoorders);
-                            _mainPage.WaitingUserOnMap(_driverCoorders);
+                            _mainPage.SetWaitingUserStatus(DriverCoorders);
+                            _mainPage.WaitingUserOnMap(DriverCoorders);
                             break;
 
                         case "Drive":
-                            _mainPage.SetDriveStatus(_driverCoorders);
-                            _mainPage.DriveOnMap(_driverCoorders);
+                            _mainPage.SetDriveStatus(DriverCoorders);
+                            _mainPage.DriveOnMap(DriverCoorders);
                             break;
                     }
                 }
@@ -329,6 +330,8 @@ namespace Taxi
             IsTimerStart = true;
             Device.StartTimer(TimeSpan.FromSeconds(1), _mainPage.OrderTaxiTimerTick);
 
+            ShowNotification("Поиск такси", "Запушен поиск такси.");
+
             while (isSearch)
             {
                 _mainPage.SearchLabel.FadeTo(0.4, 5000);
@@ -340,12 +343,14 @@ namespace Taxi
                 {
                     isSearch = false;
 
-                    _driverCoorders = await DataBaseApi.GetDriverCoordersByIdOrder(idOrder);
+                    DriverCoorders = await DataBaseApi.GetDriverCoordersByIdOrder(idOrder);
                     string userCoorders = _mainPage.RouteInfo.StartCoorders;
 
-                    string waitingTime = await GetTimeWaitingDriver(_driverCoorders, userCoorders);
+                    string waitingTime = await GetTimeWaitingDriver(DriverCoorders, userCoorders);
 
                     JsonTaxiInfo taxiInfo = await DataBaseApi.GetTaxiInfoByIdOrder(idOrder);
+
+                    ShowNotification("Найдено такси", $"{taxiInfo.Color} {taxiInfo.Brand} {taxiInfo.Mark} {taxiInfo.Numer.ToLower()}.\nТакси прибудет через {waitingTime}.");
 
                     isAccept = await DisplayAlert("Найдено такси", $"{taxiInfo.Color} {taxiInfo.Brand} {taxiInfo.Mark}\nРейтинг водителя: {taxiInfo.Rating}\n\nТакси прибудет через {waitingTime}\n\n{taxiInfo.Numer.ToLower()}", "Принять", "Отказаться");
 
@@ -353,6 +358,8 @@ namespace Taxi
                     {
                         isSearch = true;
                         DataBaseApi.ReupdateStatusToSearchByIdOrder(idOrder);
+
+                        ShowNotification("Поиск такси", "Запушен поиск такси.");
                     }
                     else
                     {
@@ -362,7 +369,7 @@ namespace Taxi
 
                         _mainPage.State = "Waiting";
                         _mainPage.SetOptionsInfoFrameOnWaitingDriver(taxiInfo);
-                        _mainPage.WaitingDriverOnMap(_driverCoorders);
+                        _mainPage.WaitingDriverOnMap(DriverCoorders);
 
                         WaitingDriver(idOrder);
                     }
@@ -375,6 +382,8 @@ namespace Taxi
             string status;
             bool isWaiting = true;
 
+            ShowNotification("Такси в пути", "Такси направляет к вам.");
+
             while (isWaiting)
             {
                 await Task.Delay(new TimeSpan(0, 0, 10));
@@ -383,15 +392,16 @@ namespace Taxi
                 switch (status)
                 {
                     case "waitingDriver":
-                        _driverCoorders = await DataBaseApi.GetDriverCoordersByIdOrder(idOrder);
-                        _mainPage.WaitingDriverOnMap(_driverCoorders);
+                        DriverCoorders = await DataBaseApi.GetDriverCoordersByIdOrder(idOrder);
+                        _mainPage.WaitingDriverOnMap(DriverCoorders);
                         break;
 
                     case "waitingUser":
-                        _driverCoorders = await DataBaseApi.GetDriverCoordersByIdOrder(idOrder);
-                        _mainPage.SetWaitingUserStatus(_driverCoorders);
+                        DriverCoorders = await DataBaseApi.GetDriverCoordersByIdOrder(idOrder);
+                        _mainPage.SetWaitingUserStatus(DriverCoorders);
                         _mainPage.SetOptionsInfoFrameOnWaitingUser();
-                        _mainPage.WaitingUserOnMap(_driverCoorders);
+                        _mainPage.WaitingUserOnMap(DriverCoorders);
+                        ShowNotification("Такси на месте", "Вас ожидает такси.");
                         break;
 
                     case "search":
@@ -405,10 +415,10 @@ namespace Taxi
 
                     case "drive":
                         isWaiting = false;
-                        _driverCoorders = await DataBaseApi.GetDriverCoordersByIdOrder(idOrder);
-                        _mainPage.SetDriveStatus(_driverCoorders);
+                        DriverCoorders = await DataBaseApi.GetDriverCoordersByIdOrder(idOrder);
+                        _mainPage.SetDriveStatus(DriverCoorders);
                         _mainPage.SetOptionsInfoFrameOnDrive();
-                        _mainPage.DriveOnMap(_driverCoorders);
+                        _mainPage.DriveOnMap(DriverCoorders);
                         Drive(idOrder);
                         break;
 
@@ -423,6 +433,8 @@ namespace Taxi
             string status;
             bool isDriving = true;
 
+            ShowNotification("Такси в поездке", "Таксометр запущен.");
+
             while (isDriving)
             {
                 await Task.Delay(new TimeSpan(0, 0, 10));
@@ -431,13 +443,15 @@ namespace Taxi
 
                 if (status == "drive")
                 {
-                    _driverCoorders = await DataBaseApi.GetDriverCoordersByIdOrder(idOrder);
-                    _mainPage.SetDriveStatus(_driverCoorders);
-                    _mainPage.DriveOnMap(_driverCoorders);
+                    DriverCoorders = await DataBaseApi.GetDriverCoordersByIdOrder(idOrder);
+                    _mainPage.SetDriveStatus(DriverCoorders);
+                    _mainPage.DriveOnMap(DriverCoorders);
                 }
                 else
                 {
                     isDriving = false;
+
+                    ShowNotification("Поезка завершена", "Оцените поездку.");
 
                     string rating = await DisplayActionSheet("Как вы оцените поездку?", null, null, "5 Звезд", "4 Звезды", "3 Звезды", "2 Звезды", "1 Звезда");
 
@@ -470,6 +484,16 @@ namespace Taxi
 
             Navigation.RemovePage(this);
             Navigation.PushAsync(new FlyoutMenu());
+        }
+
+        private async void ShowNotification(string title, string description)
+        {
+            if (await LocalNotificationCenter.Current.AreNotificationsEnabled() == false)
+            {
+                await LocalNotificationCenter.Current.RequestNotificationPermission();
+            }
+
+            LocalNotificationCenter.Current.Show(new NotificationRequest { Description = description, Title = title });
         }
 
         private async Task<string> GetTimeWaitingDriver(string from, string to)

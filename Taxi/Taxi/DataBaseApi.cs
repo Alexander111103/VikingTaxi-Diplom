@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using static Android.Resource;
+using Windows.UI.Xaml.Controls;
 
 namespace Taxi
 {
@@ -32,7 +32,9 @@ namespace Taxi
             GetActualPrice,
             SetRatingOrderById,
             AddDriverRatingByOrderId,
-            SetStatusToCanseledByIdOrder
+            SetStatusToCanseledByIdOrder,
+            GetActiveOrderIdByLoginUser,
+            GetRouteInfoByIdOrder
         }
 
         public static async Task<int> GetCountByLogin(string login)
@@ -247,6 +249,30 @@ namespace Taxi
             };
 
             await _httpClient.PostAsync(GetUrl(ApiFile.AddDriverRatingByOrderId), new FormUrlEncodedContent(inputData));
+        }
+
+        public static async Task<int> GetActiveOrderIdByLoginUser(string loginUser)
+        {
+            Dictionary<string, string> inputData = new Dictionary<string, string>
+            {
+                { "login", loginUser }
+            };
+
+            JsonObjecktOne resultCount = JsonConvert.DeserializeObject<JsonObjecktOne>(await RequestApiGetJson(ApiFile.GetActiveOrderIdByLoginUser, inputData));
+
+            return Convert.ToInt32(resultCount.Value);
+        }
+
+        public static async Task<JsonRouteInfo> GetRouteInfoByIdOrder(int idOrder)
+        {
+            Dictionary<string, string> inputData = new Dictionary<string, string>
+            {
+                { "id", $"{idOrder}" }
+            };
+
+            JsonRouteInfo result = JsonConvert.DeserializeObject<JsonRouteInfo>(await RequestApiGetJson(ApiFile.GetRouteInfoByIdOrder, inputData));
+
+            return result;
         }
 
         private static string GetUrl(ApiFile name)

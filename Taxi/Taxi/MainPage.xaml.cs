@@ -41,14 +41,14 @@ namespace Taxi
             InitializeComponent();
 
             _flyoutMenu = menu;
-
-            SetAndroidOption();
             
             map.Cookies = new CookieContainer();
 
             map.Cookies.Add(new Cookie("State", State, "/", "taxiviking.ru"));
             map.Cookies.Add(new Cookie("CoordersFrom", "", "/", "taxiviking.ru"));
             map.Cookies.Add(new Cookie("CoordersTo", "", "/", "taxiviking.ru"));
+
+            LoadingActiveOrder();
         }
 
         public async void RouteAgree_Click(object sender, EventArgs e)
@@ -342,7 +342,7 @@ namespace Taxi
             }
         }
 
-        public async void SetOptionsInfoFrameOnSearch()
+        public async Task<string> SetOptionsInfoFrameOnSearch()
         {
             infoStackLayout.Children.Clear();
 
@@ -434,6 +434,8 @@ namespace Taxi
 
                 fast.Children.Add(_fastSearchButton);
             }
+
+            return null;
         }
 
         public async void SetOptionsInfoFrameOnWaitingDriver(JsonTaxiInfo taxiInfo)
@@ -451,8 +453,16 @@ namespace Taxi
 
             fast.Children.Clear();
 
-            SearchLabel.FontSize = 15;
-            SearchLabel.Margin = new Thickness(0, 0, 0, 15);
+            SearchLabel = new Label()
+            {
+                Text = "Поиск...",
+                Margin = new Thickness(0, 0, 0, 15),
+                FontAttributes = FontAttributes.Bold,
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.Center,
+                TextColor = Color.Black,
+                FontSize = 15
+            };
 
             _upDownInfoFrame = new Button 
             { 
@@ -602,6 +612,51 @@ namespace Taxi
             infoStackLayout.Children.Add(SearchLabel);
         }
 
+        private async void LoadingActiveOrder()
+        {
+            App.Current.Properties.TryGetValue("login", out object login);
+            int activeOrderId = await DataBaseApi.GetActiveOrderIdByLoginUser($"{login}");
+            string status = await DataBaseApi.GetStatusOrderById(activeOrderId);
+
+            switch (status)
+            {
+                case "search":
+                case "searched":
+                    RouteInfo = await DataBaseApi.GetRouteInfoByIdOrder(activeOrderId);
+                    _idOrder = activeOrderId;
+                    await SetOptionsInfoFrameOnSearch();
+                    SetSearchStatus();
+                    SearchOnMap();
+                    _flyoutMenu.SearchTaxi(activeOrderId);
+                    break;
+
+                case "waitingUser":
+                case "waitingDriver":
+                    State = "Waiting";
+                    RouteInfo = await DataBaseApi.GetRouteInfoByIdOrder(activeOrderId);
+                    _idOrder = activeOrderId;
+                    _flyoutMenu.DriverCoorders = await DataBaseApi.GetDriverCoordersByIdOrder(activeOrderId);
+                    SetOptionsInfoFrameOnWaitingDriver(await DataBaseApi.GetTaxiInfoByIdOrder(activeOrderId));
+                    WaitingDriverOnMap(_flyoutMenu.DriverCoorders);
+                    _flyoutMenu.WaitingDriver(activeOrderId);
+                    break;
+
+                case "drive":
+                    _flyoutMenu.DriverCoorders = await DataBaseApi.GetDriverCoordersByIdOrder(activeOrderId);
+                    RouteInfo = await DataBaseApi.GetRouteInfoByIdOrder(activeOrderId);
+                    _idOrder = activeOrderId;
+                    _flyoutMenu.DriverCoorders = await DataBaseApi.GetDriverCoordersByIdOrder(activeOrderId);
+                    SetDriveStatus(_flyoutMenu.DriverCoorders);
+                    SetOptionsInfoFrameOnDrive();
+                    DriveOnMap(_flyoutMenu.DriverCoorders);
+                    _flyoutMenu.Drive(activeOrderId);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
         private async void UpInfoFrameOnWaitingDriver(object sender, EventArgs e)
         {
             _upDownInfoFrame.Clicked -= UpInfoFrameOnWaitingDriver;
@@ -681,14 +736,6 @@ namespace Taxi
             price = Math.Floor(Math.Max((StartPrice + PriceToKm * km + PriceToMin * min), MinPrice));
 
             return Convert.ToString(price);
-        }
-
-        private void SetAndroidOption()
-        {
-            if (Device.RuntimePlatform == Device.Android)
-            {
-                infoFrame.WidthRequest = 335;
-            }
         }
 
         private async Task<string> AnimateHeightInfoFrame(int newValue, int time)

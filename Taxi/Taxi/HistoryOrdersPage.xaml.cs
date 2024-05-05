@@ -47,22 +47,7 @@ namespace Taxi
 
         public async void uved(object sender, EventArgs e)
         {
-            if(await LocalNotificationCenter.Current.AreNotificationsEnabled() == false)
-            {
-                await LocalNotificationCenter.Current.RequestNotificationPermission();
-            }
 
-            NotificationRequest noti = new NotificationRequest
-            {
-                BadgeNumber = 1,
-                Description = "test",
-                Title = "TEST",
-                ReturningData = "t",
-                NotificationId = 1337,
-                Schedule = { NotifyTime = DateTime.Now }
-            };
-
-            await LocalNotificationCenter.Current.Show(noti);
         }
     }
 }
