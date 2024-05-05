@@ -3,6 +3,11 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Xamarin.Essentials;
 using System.Threading;
+using Android.Graphics;
+using Javax.Security.Auth;
+using Android.App;
+using Android;
+using Plugin.LocalNotification;
 
 namespace Taxi
 {
@@ -16,8 +21,6 @@ namespace Taxi
 			InitializeComponent ();
 
             _flyoutMenu = menu;
-
-            alert.Source = new HtmlWebViewSource { Html="<button onclick=\"confirm('6')\">X</button>" };
         }
 
         public void OpenMenu_Click(object sender, EventArgs e)
@@ -32,26 +35,6 @@ namespace Taxi
             }
         }
 
-        public void testf_Click(object sender, EventArgs e)
-        {
-            Entry entry = new Entry() { Text = ((Button)sender).Text, HeightRequest = ((Button)sender).HeightRequest, WidthRequest = ((Button)sender).WidthRequest, VerticalTextAlignment = TextAlignment.Center, HorizontalTextAlignment = TextAlignment.Center };
-            entry.Unfocused += testf_Chendged;
-
-            testf.Children.Remove(((Button)sender));
-            testf.Children.Add(entry);
-
-            entry.Focus();
-        }
-
-        public void testf_Chendged(object sender, EventArgs e)
-        {
-            Button button = new Button() { Text = ((Entry)sender).Text, HeightRequest = ((Entry)sender).HeightRequest, WidthRequest = ((Entry)sender).WidthRequest, BackgroundColor = Color.White, TextColor = Color.Black, BorderColor = Color.Black };
-            button.Clicked += testf_Click;
-
-            testf.Children.Remove(((Entry)sender));
-            testf.Children.Add(button);
-        }
-
         public async void testLocation_Click(object sender, EventArgs e)
         {
             //var location = await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.Best, TimeSpan.FromSeconds(3)), new CancellationTokenSource().Token);
@@ -60,6 +43,26 @@ namespace Taxi
 
             double test = Location.CalculateDistance(await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.High, TimeSpan.FromSeconds(2)), new CancellationTokenSource().Token), await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.High, TimeSpan.FromSeconds(2)), new CancellationTokenSource().Token), DistanceUnits.Kilometers);
             DisplayAlert("Ok", $"{test}", "Ok");
+        }
+
+        public async void uved(object sender, EventArgs e)
+        {
+            if(await LocalNotificationCenter.Current.AreNotificationsEnabled() == false)
+            {
+                await LocalNotificationCenter.Current.RequestNotificationPermission();
+            }
+
+            NotificationRequest noti = new NotificationRequest
+            {
+                BadgeNumber = 1,
+                Description = "test",
+                Title = "TEST",
+                ReturningData = "t",
+                NotificationId = 1337,
+                Schedule = { NotifyTime = DateTime.Now }
+            };
+
+            await LocalNotificationCenter.Current.Show(noti);
         }
     }
 }

@@ -13,11 +13,8 @@
                 <Button Text="Меню" Clicked="OpenMenu_Click" BackgroundColor="#2196F3" TextColor="White" FontSize="Subtitle"  AbsoluteLayout.LayoutBounds="0.0075, 10, 80, AutoSize" AbsoluteLayout.LayoutFlags="XProportional" />
             </AbsoluteLayout>
         </Frame>
-        <AbsoluteLayout x:Name="testf">
-            <Button Text="12" WidthRequest="200" HeightRequest="80" Clicked="testf_Click" BackgroundColor="White" TextColor="Black" BorderColor="Black" />
-        </AbsoluteLayout>
         <Button Text="test location" Clicked="testLocation_Click" />
-        <WebView Source="" x:Name="alert" windows:WebView.IsJavaScriptAlertEnabled="true" VerticalOptions="FillAndExpand"/>
+        <Button Text="uved" Clicked="uved" />
         <WebView Source="http://taxiviking.ru/test.php?Api_key=test1" VerticalOptions="FillAndExpand" />
     </StackLayout>
 </ContentPage>
