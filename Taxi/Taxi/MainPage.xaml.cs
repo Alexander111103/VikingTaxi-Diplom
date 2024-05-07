@@ -117,7 +117,7 @@ namespace Taxi
 
         public async void OrderTaxi_Click(object sender, EventArgs e)
         {
-            SetOptionsInfoFrameOnSearch();
+            await SetOptionsInfoFrameOnSearch();
 
             SetSearchStatus();
 
@@ -250,11 +250,22 @@ namespace Taxi
             }
         }
 
-        public void Cancel_Click(object sender, EventArgs e)
+        public async void Cancel_Click(object sender, EventArgs e)
         {
             _cancelOrder.Clicked -= Cancel_Click;
 
-            _flyoutMenu.CanselOrder(_idOrder);
+            bool isCansel = false;
+
+            isCansel = await DisplayAlert("Отмена заказа", "Вы точно хотите отменить заказ?", "Да", "Нет");
+
+            if (isCansel)
+            { 
+                _flyoutMenu.CanselOrder(_idOrder);
+            }
+            else
+            {
+                _cancelOrder.Clicked += Cancel_Click;
+            }
         }
 
         public void PhoneCallDriver_Click(object sender, EventArgs e)
@@ -616,44 +627,50 @@ namespace Taxi
         {
             App.Current.Properties.TryGetValue("login", out object login);
             int activeOrderId = await DataBaseApi.GetActiveOrderIdByLoginUser($"{login}");
-            string status = await DataBaseApi.GetStatusOrderById(activeOrderId);
 
-            switch (status)
+            if (activeOrderId != 0)
             {
-                case "search":
-                case "searched":
-                    RouteInfo = await DataBaseApi.GetRouteInfoByIdOrder(activeOrderId);
-                    _idOrder = activeOrderId;
-                    await SetOptionsInfoFrameOnSearch();
-                    SetSearchStatus();
-                    SearchOnMap();
-                    _flyoutMenu.SearchTaxi(activeOrderId);
-                    break;
+                DisplayAlert("Загрузка", "Загружается уже запущенный заказ.", "Ок");
 
-                case "waitingUser":
-                case "waitingDriver":
-                    State = "Waiting";
-                    RouteInfo = await DataBaseApi.GetRouteInfoByIdOrder(activeOrderId);
-                    _idOrder = activeOrderId;
-                    _flyoutMenu.DriverCoorders = await DataBaseApi.GetDriverCoordersByIdOrder(activeOrderId);
-                    SetOptionsInfoFrameOnWaitingDriver(await DataBaseApi.GetTaxiInfoByIdOrder(activeOrderId));
-                    WaitingDriverOnMap(_flyoutMenu.DriverCoorders);
-                    _flyoutMenu.WaitingDriver(activeOrderId);
-                    break;
+                string status = await DataBaseApi.GetStatusOrderById(activeOrderId);
 
-                case "drive":
-                    _flyoutMenu.DriverCoorders = await DataBaseApi.GetDriverCoordersByIdOrder(activeOrderId);
-                    RouteInfo = await DataBaseApi.GetRouteInfoByIdOrder(activeOrderId);
-                    _idOrder = activeOrderId;
-                    _flyoutMenu.DriverCoorders = await DataBaseApi.GetDriverCoordersByIdOrder(activeOrderId);
-                    SetDriveStatus(_flyoutMenu.DriverCoorders);
-                    SetOptionsInfoFrameOnDrive();
-                    DriveOnMap(_flyoutMenu.DriverCoorders);
-                    _flyoutMenu.Drive(activeOrderId);
-                    break;
+                switch (status)
+                {
+                    case "search":
+                    case "searched":
+                        RouteInfo = await DataBaseApi.GetRouteInfoByIdOrder(activeOrderId);
+                        _idOrder = activeOrderId;
+                        await SetOptionsInfoFrameOnSearch();
+                        SetSearchStatus();
+                        SearchOnMap();
+                        _flyoutMenu.SearchTaxi(activeOrderId);
+                        break;
 
-                default:
-                    break;
+                    case "waitingUser":
+                    case "waitingDriver":
+                        State = "Waiting";
+                        RouteInfo = await DataBaseApi.GetRouteInfoByIdOrder(activeOrderId);
+                        _idOrder = activeOrderId;
+                        _flyoutMenu.DriverCoorders = await DataBaseApi.GetDriverCoordersByIdOrder(activeOrderId);
+                        SetOptionsInfoFrameOnWaitingDriver(await DataBaseApi.GetTaxiInfoByIdOrder(activeOrderId));
+                        WaitingDriverOnMap(_flyoutMenu.DriverCoorders);
+                        _flyoutMenu.WaitingDriver(activeOrderId);
+                        break;
+
+                    case "drive":
+                        _flyoutMenu.DriverCoorders = await DataBaseApi.GetDriverCoordersByIdOrder(activeOrderId);
+                        RouteInfo = await DataBaseApi.GetRouteInfoByIdOrder(activeOrderId);
+                        _idOrder = activeOrderId;
+                        _flyoutMenu.DriverCoorders = await DataBaseApi.GetDriverCoordersByIdOrder(activeOrderId);
+                        SetDriveStatus(_flyoutMenu.DriverCoorders);
+                        SetOptionsInfoFrameOnDrive();
+                        DriveOnMap(_flyoutMenu.DriverCoorders);
+                        _flyoutMenu.Drive(activeOrderId);
+                        break;
+
+                    default:
+                        break;
+                }
             }
         }
 
@@ -746,6 +763,11 @@ namespace Taxi
             await Task.Delay(time);
 
             return null;
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            return true;
         }
     }
 }

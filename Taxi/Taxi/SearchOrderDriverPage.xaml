@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Taxi.SearchOrderDriverPage"
+             Title="SearchOrderDriverPage"
+             NavigationPage.HasNavigationBar="False">
+
+    <StackLayout x:Name="t">
+        <Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="0">
+            <AbsoluteLayout>
+                <Label Text="Test" HorizontalTextAlignment="Center" TextColor="White" FontSize="36" AbsoluteLayout.LayoutBounds="0.5, 0, AutoSize, AutoSize" AbsoluteLayout.LayoutFlags="XProportional" />
+                <Button Text="Меню" Clicked="OpenMenu_Click" BackgroundColor="#2196F3" TextColor="White" FontSize="Subtitle"  AbsoluteLayout.LayoutBounds="0.0075, 10, 80, AutoSize" AbsoluteLayout.LayoutFlags="XProportional" />
+            </AbsoluteLayout>
+        </Frame>
+
+    </StackLayout>
+</ContentPage>

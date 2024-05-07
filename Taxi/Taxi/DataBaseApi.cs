@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Windows.UI.Xaml.Controls;
+using static Android.Resource;
 
 namespace Taxi
 {
@@ -34,7 +34,9 @@ namespace Taxi
             AddDriverRatingByOrderId,
             SetStatusToCanseledByIdOrder,
             GetActiveOrderIdByLoginUser,
-            GetRouteInfoByIdOrder
+            GetRouteInfoByIdOrder,
+            GetDriverCarsByDriverLogin,
+            SetDriverStatusToSearchById
         }
 
         public static async Task<int> GetCountByLogin(string login)
@@ -273,6 +275,30 @@ namespace Taxi
             JsonRouteInfo result = JsonConvert.DeserializeObject<JsonRouteInfo>(await RequestApiGetJson(ApiFile.GetRouteInfoByIdOrder, inputData));
 
             return result;
+        }
+
+        public static async Task<JsonCars> GetDriverCarsByDriverLogin(string loginDriver)
+        {
+            Dictionary<string, string> inputData = new Dictionary<string, string>
+            {
+                { "login", loginDriver }
+            };
+
+            JsonCars result = JsonConvert.DeserializeObject<JsonCars>(await RequestApiGetJson(ApiFile.GetDriverCarsByDriverLogin, inputData));
+
+            return result;
+        }
+
+        public static async void SetDriverStatusToSearchById(int idDriver, int idCar, string coorders)
+        {
+            Dictionary<string, string> inputData = new Dictionary<string, string>
+            {
+                { "idDriver", $"{idDriver}" },
+                { "idCar", $"{idCar}" },
+                { "coorders", coorders }
+            };
+
+            await _httpClient.PostAsync(GetUrl(ApiFile.SetDriverStatusToSearchById), new FormUrlEncodedContent(inputData));
         }
 
         private static string GetUrl(ApiFile name)

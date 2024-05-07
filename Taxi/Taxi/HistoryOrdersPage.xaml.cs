@@ -3,11 +3,6 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Xamarin.Essentials;
 using System.Threading;
-using Android.Graphics;
-using Javax.Security.Auth;
-using Android.App;
-using Android;
-using Plugin.LocalNotification;
 
 namespace Taxi
 {
@@ -48,6 +43,11 @@ namespace Taxi
         public async void uved(object sender, EventArgs e)
         {
 
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            return true;
         }
     }
 }

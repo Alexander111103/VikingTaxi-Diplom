@@ -53,5 +53,10 @@ namespace Taxi
                 panel.Cookies.Add(new Cookie("userPassword", $"{password}", "/", "taxiviking.ru"));
             }
         }
+
+        protected override bool OnBackButtonPressed()
+        {
+            return true;
+        }
     }
 }

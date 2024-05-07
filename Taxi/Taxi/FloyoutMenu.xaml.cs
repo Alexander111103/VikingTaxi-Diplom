@@ -14,6 +14,8 @@ namespace Taxi
     {
         private MainPage _mainPage;
         private HistoryOrdersPage _historyOrdersPage;
+        private PickAutoDriverPage _pickAutoDriverPage;
+        private SearchOrderDriverPage _searchOrderDriverPage;
         private AdminHubPage _adminHubPage;
 
         private List<Button> _buttons = new List<Button>();
@@ -28,6 +30,7 @@ namespace Taxi
         public bool IsTimerStart = false;
 
         public string DriverCoorders;
+        public string DriverState = "pickAuto";
 
         public FlyoutMenu()
         {
@@ -225,7 +228,20 @@ namespace Taxi
             if (PageNumber != 7)
             {
                 DisableAllButtons();
-                Detail = new NavigationPage(_historyOrdersPage);
+
+                switch(DriverState)
+                {
+                    case "pickAuto":
+                        Detail = new NavigationPage(_pickAutoDriverPage);
+                        break;
+
+                    case "search":
+                        Detail= new NavigationPage(_searchOrderDriverPage);
+                        break;
+
+                    case "drive":
+                        break;
+                }
 
                 _searchOrderDriverButton.TextColor = Color.FromHex("#FFA940");
                 _searchOrderDriverButton.BorderColor = Color.FromHex("#D57500");
@@ -579,6 +595,9 @@ namespace Taxi
                 _buttons.Add(_searchOrderDriverButton);
                 _buttons.Add(_historyOrdersDriverButton);
                 _buttons.Add(_myCarsDriverButton);
+
+                _searchOrderDriverPage = new SearchOrderDriverPage(this);
+                _pickAutoDriverPage = new PickAutoDriverPage(this, _searchOrderDriverPage);
             }
 
             if (role == "admin")
