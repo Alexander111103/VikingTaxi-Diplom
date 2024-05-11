@@ -5,7 +5,7 @@
              Title="PickAutoDriverPage"
              NavigationPage.HasNavigationBar="False">
 
-    <StackLayout x:Name="t">
+    <StackLayout>
         <Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="0">
             <AbsoluteLayout>
                 <Label Text="Выбор авто" HorizontalTextAlignment="Center" TextColor="White" FontSize="32" AbsoluteLayout.LayoutBounds="0.5, 0, AutoSize, AutoSize" AbsoluteLayout.LayoutFlags="XProportional" />

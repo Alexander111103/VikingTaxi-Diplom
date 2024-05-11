@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Android.Icu.Text;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -36,7 +37,11 @@ namespace Taxi
             GetActiveOrderIdByLoginUser,
             GetRouteInfoByIdOrder,
             GetDriverCarsByDriverLogin,
-            SetDriverStatusToSearchById
+            SetDriverStatusToSearchById,
+            GetDriverCurrentCarByDriverLogin,
+            GetOrders,
+            SetDriverStatusToSleepByLogin,
+            PickOrderDriver
         }
 
         public static async Task<int> GetCountByLogin(string login)
@@ -289,6 +294,18 @@ namespace Taxi
             return result;
         }
 
+        public static async Task<JsonCar> GetDriverCurrentCarByDriverLogin(string loginDriver)
+        {
+            Dictionary<string, string> inputData = new Dictionary<string, string>
+            {
+                { "login", loginDriver }
+            };
+
+            JsonCar result = JsonConvert.DeserializeObject<JsonCar>(await RequestApiGetJson(ApiFile.GetDriverCurrentCarByDriverLogin, inputData));
+
+            return result;
+        }
+
         public static async void SetDriverStatusToSearchById(int idDriver, int idCar, string coorders)
         {
             Dictionary<string, string> inputData = new Dictionary<string, string>
@@ -299,6 +316,40 @@ namespace Taxi
             };
 
             await _httpClient.PostAsync(GetUrl(ApiFile.SetDriverStatusToSearchById), new FormUrlEncodedContent(inputData));
+        }
+
+        public static async Task<JsonOrders> GetOrders(string rate, string isChildSeet)
+        {
+            Dictionary<string, string> inputData = new Dictionary<string, string>
+            {
+                { "rate", rate },
+                { "isChildSeet", isChildSeet }
+            };
+
+            JsonOrders result = JsonConvert.DeserializeObject<JsonOrders>(await RequestApiGetJson(ApiFile.GetOrders, inputData));
+
+            return result;
+        }
+
+        public static async void SetDriverStatusToSleepByLogin(string loginDriver)
+        {
+            Dictionary<string, string> inputData = new Dictionary<string, string>
+            {
+                { "loginDriver", loginDriver }
+            };
+
+            await _httpClient.PostAsync(GetUrl(ApiFile.SetDriverStatusToSleepByLogin), new FormUrlEncodedContent(inputData));
+        }
+
+        public static async void PickOrderDriver(int idOrder, string loginDriver)
+        {
+            Dictionary<string, string> inputData = new Dictionary<string, string>
+            {
+                { "idOrder", $"{idOrder}" },
+                { "loginDriver", loginDriver }
+            };
+
+            await _httpClient.PostAsync(GetUrl(ApiFile.PickOrderDriver), new FormUrlEncodedContent(inputData));
         }
 
         private static string GetUrl(ApiFile name)

@@ -5,13 +5,38 @@
              Title="SearchOrderDriverPage"
              NavigationPage.HasNavigationBar="False">
 
-    <StackLayout x:Name="t">
+    <StackLayout>
         <Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="0">
             <AbsoluteLayout>
-                <Label Text="Test" HorizontalTextAlignment="Center" TextColor="White" FontSize="36" AbsoluteLayout.LayoutBounds="0.5, 0, AutoSize, AutoSize" AbsoluteLayout.LayoutFlags="XProportional" />
+                <Label Text="Поиск заказов" HorizontalTextAlignment="Center" TextColor="White" FontSize="28" AbsoluteLayout.LayoutBounds="0.5, 0, AutoSize, AutoSize" AbsoluteLayout.LayoutFlags="XProportional" />
                 <Button Text="Меню" Clicked="OpenMenu_Click" BackgroundColor="#2196F3" TextColor="White" FontSize="Subtitle"  AbsoluteLayout.LayoutBounds="0.0075, 10, 80, AutoSize" AbsoluteLayout.LayoutFlags="XProportional" />
             </AbsoluteLayout>
         </Frame>
+        <Label Text="Вы в состоянии search" FontSize="20" HorizontalOptions="Center" />
+        <Label Text="Выберите заказ" Margin="0, 0, 0, 10" HorizontalOptions="Center" />
+        <Grid  Margin="0, 0, 0, 40" Padding="20, 0, 20, 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
+            <StackLayout Grid.Row="0" Grid.Column="0">
+                <Switch HorizontalOptions="Center" PropertyChanged="AutoReloadOrders" />
+                <Label Text="Авто обновление 10 секунд" HorizontalTextAlignment="Center" FontSize="12"/>
+            </StackLayout>
+            <Button Text="Обновить" Grid.Row="0" Grid.Column="1" FontSize="12" Clicked="LoadOrders_Click"/>
+            <Button x:Name="CanselOrderDriver" Text="Отменить заказ" Grid.Row="0" Grid.Column="2" FontSize="10" Clicked="CanselOrderDriver_Click" IsEnabled="False"/>
+            <Button x:Name="Sleep" Text="Закончить работу" Grid.Row="0" Grid.Column="3" FontSize="10" Clicked="Sleep_Click" IsEnabled="True"/>
+        </Grid>
+        <RefreshView x:Name="refreshView" RefreshColor="#2196F3" IsRefreshing="{Binding IsRefreshind}" Command="{Binding Command}">
+            <ListView x:Name="listView">
+
+            </ListView>
+        </RefreshView>
     </StackLayout>
 </ContentPage>

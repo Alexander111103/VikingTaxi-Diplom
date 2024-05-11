@@ -10,14 +10,12 @@ namespace Taxi
     public partial class PickAutoDriverPage : ContentPage
     {
         private FlyoutMenu _flyoutMenu;
-        private SearchOrderDriverPage _searchOrderDriverPage;
 
-        public PickAutoDriverPage(FlyoutMenu menu, SearchOrderDriverPage searchOrderDriverPage)
+        public PickAutoDriverPage(FlyoutMenu menu)
         {
             InitializeComponent();
 
             _flyoutMenu = menu;
-            _searchOrderDriverPage = searchOrderDriverPage;
 
             SetListView();
         }
@@ -82,6 +80,7 @@ namespace Taxi
         private async void ListViewItemTapped(object sender, ItemTappedEventArgs e)
         {
             JsonCar car = e.Item as JsonCar;
+
             if (car != null)
             {
                 bool isAgree = await DisplayAlert("Подтверждение", $"Начать работу на:\n{car.Color} {car.Brand} {car.Mark} {car.Number}", "Подтвердить", "Выбрать другой");
@@ -93,7 +92,9 @@ namespace Taxi
                     DataBaseApi.SetDriverStatusToSearchById(car.Owner, car.Id, $"{location.Latitude.ToString().Replace(",", ".")},{location.Longitude.ToString().Replace(",", ".")}");
                     _flyoutMenu.DriverState = "search";
 
-                    await Navigation.PushAsync(_searchOrderDriverPage);
+                    _flyoutMenu.SearchOrderDriverPage = new SearchOrderDriverPage(_flyoutMenu);
+
+                    await Navigation.PushAsync(_flyoutMenu.SearchOrderDriverPage);
                 }
             }
         }

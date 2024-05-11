@@ -14,9 +14,11 @@ namespace Taxi
     {
         private MainPage _mainPage;
         private HistoryOrdersPage _historyOrdersPage;
-        private PickAutoDriverPage _pickAutoDriverPage;
-        private SearchOrderDriverPage _searchOrderDriverPage;
         private AdminHubPage _adminHubPage;
+
+        public PickAutoDriverPage PickAutoDriverPage;
+        public SearchOrderDriverPage SearchOrderDriverPage;
+        public TaxameterPage TaxameterPage;
 
         private List<Button> _buttons = new List<Button>();
         private Button _searchOrderDriverButton;
@@ -232,14 +234,15 @@ namespace Taxi
                 switch(DriverState)
                 {
                     case "pickAuto":
-                        Detail = new NavigationPage(_pickAutoDriverPage);
+                        Detail = new NavigationPage(PickAutoDriverPage);
                         break;
 
                     case "search":
-                        Detail= new NavigationPage(_searchOrderDriverPage);
+                        Detail= new NavigationPage(SearchOrderDriverPage);
                         break;
 
                     case "drive":
+                        Detail = new NavigationPage(TaxameterPage);
                         break;
                 }
 
@@ -370,24 +373,33 @@ namespace Taxi
 
                     isAccept = await DisplayAlert("Найдено такси", $"{taxiInfo.Color} {taxiInfo.Brand} {taxiInfo.Mark}\nРейтинг водителя: {taxiInfo.Rating}\n\nТакси прибудет через {waitingTime}\n\n{taxiInfo.Numer.ToLower()}", "Принять", "Отказаться");
 
-                    if (!isAccept)
+                    if (await DataBaseApi.GetStatusOrderById(idOrder) == "search")
                     {
                         isSearch = true;
-                        DataBaseApi.ReupdateStatusToSearchByIdOrder(idOrder);
-
+                        DisplayAlert("Ошибка", "Вы слишком долго думали, найденное такси отменено.", "Ок");
                         ShowNotification("Поиск такси", "Запушен поиск такси.");
                     }
                     else
                     {
-                        IsTimerStart = false;
-                        DataBaseApi.SetStatusToWaitingDriverByIdOrder(idOrder, Timer.ElapsedMilliseconds);
-                        Timer.Stop();
+                        if (!isAccept)
+                        {
+                            isSearch = true;
+                            DataBaseApi.ReupdateStatusToSearchByIdOrder(idOrder);
 
-                        _mainPage.State = "Waiting";
-                        _mainPage.SetOptionsInfoFrameOnWaitingDriver(taxiInfo);
-                        _mainPage.WaitingDriverOnMap(DriverCoorders);
+                            ShowNotification("Поиск такси", "Запушен поиск такси.");
+                        }
+                        else
+                        {
+                            IsTimerStart = false;
+                            DataBaseApi.SetStatusToWaitingDriverByIdOrder(idOrder, Timer.ElapsedMilliseconds);
+                            Timer.Stop();
 
-                        WaitingDriver(idOrder);
+                            _mainPage.State = "Waiting";
+                            _mainPage.SetOptionsInfoFrameOnWaitingDriver(taxiInfo);
+                            _mainPage.WaitingDriverOnMap(DriverCoorders);
+
+                            WaitingDriver(idOrder);
+                        }
                     }
                 }
             }
@@ -596,8 +608,7 @@ namespace Taxi
                 _buttons.Add(_historyOrdersDriverButton);
                 _buttons.Add(_myCarsDriverButton);
 
-                _searchOrderDriverPage = new SearchOrderDriverPage(this);
-                _pickAutoDriverPage = new PickAutoDriverPage(this, _searchOrderDriverPage);
+                PickAutoDriverPage = new PickAutoDriverPage(this);
             }
 
             if (role == "admin")
