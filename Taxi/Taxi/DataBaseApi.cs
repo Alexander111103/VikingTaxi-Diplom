@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Controls;
+using static Android.Provider.Telephony.Mms;
 using static Android.Resource;
 
 namespace Taxi
@@ -30,6 +32,9 @@ namespace Taxi
             GetTaxiInfoByIdOrder,
             FastSearch,
             SetStatusToWaitingDriverByIdOrder,
+            SetStatusToWaitingUserByIdOrder,
+            SetStatusToEndByIdOrder,
+            SetStatusToDriveByIdOrder,
             GetActualPrice,
             SetRatingOrderById,
             AddDriverRatingByOrderId,
@@ -40,8 +45,12 @@ namespace Taxi
             SetDriverStatusToSearchById,
             GetDriverCurrentCarByDriverLogin,
             GetOrders,
+            GetOrderById,
             SetDriverStatusToSleepByLogin,
-            PickOrderDriver
+            SetDriverCoordersByLogin,
+            PickOrderDriver,
+            SetDriverStatusToDriveByLogin,
+            GetUserPhoneByOrderId
         }
 
         public static async Task<int> GetCountByLogin(string login)
@@ -226,6 +235,43 @@ namespace Taxi
             await _httpClient.PostAsync(GetUrl(ApiFile.SetStatusToWaitingDriverByIdOrder), new FormUrlEncodedContent(inputData));
         }
 
+        public static async void SetStatusToWaitingUserByIdOrder(int idOrder, long timeInWaitingDriverMilliseconds)
+        {
+            TimeSpan timeInWaitingDriver = new TimeSpan(0, 0, 0, 0, (int)timeInWaitingDriverMilliseconds);
+
+            Dictionary<string, string> inputData = new Dictionary<string, string>
+            {
+                { "id", $"{idOrder}" },
+                { "time", new DateTimeOffset(2024, 1, 1, timeInWaitingDriver.Hours, timeInWaitingDriver.Minutes, timeInWaitingDriver.Seconds, timeInWaitingDriver.Milliseconds, TimeSpan.Zero).ToString("HH:mm:ss") }
+            };
+
+            await _httpClient.PostAsync(GetUrl(ApiFile.SetStatusToWaitingUserByIdOrder), new FormUrlEncodedContent(inputData));
+        }
+
+        public static async void SetStatusToEndByIdOrder(int idOrder, long timeInDriveMilliseconds, int price)
+        {
+            TimeSpan timeInWaitingDriver = new TimeSpan(0, 0, 0, 0, (int)timeInDriveMilliseconds);
+
+            Dictionary<string, string> inputData = new Dictionary<string, string>
+            {
+                { "id", $"{idOrder}" },
+                { "time", new DateTimeOffset(2024, 1, 1, timeInWaitingDriver.Hours, timeInWaitingDriver.Minutes, timeInWaitingDriver.Seconds, timeInWaitingDriver.Milliseconds, TimeSpan.Zero).ToString("HH:mm:ss") },
+                { "price", $"{price}"}
+            };
+
+            await _httpClient.PostAsync(GetUrl(ApiFile.SetStatusToEndByIdOrder), new FormUrlEncodedContent(inputData));
+        }
+
+        public static async void SetStatusToDriveByIdOrder(int idOrder)
+        {
+            Dictionary<string, string> inputData = new Dictionary<string, string>
+            {
+                { "id", $"{idOrder}" }
+            };
+
+            await _httpClient.PostAsync(GetUrl(ApiFile.SetStatusToDriveByIdOrder), new FormUrlEncodedContent(inputData));
+        }
+
         public static async void SetRatingOrderById(int idOrder, int rating)
         {
             Dictionary<string, string> inputData = new Dictionary<string, string>
@@ -331,6 +377,18 @@ namespace Taxi
             return result;
         }
 
+        public static async Task<JsonOrder> GetOrderById(int idOrder)
+        {
+            Dictionary<string, string> inputData = new Dictionary<string, string>
+            {
+                { "id", $"{idOrder}" }
+            };
+
+            JsonOrder result = JsonConvert.DeserializeObject<JsonOrder>(await RequestApiGetJson(ApiFile.GetOrderById, inputData));
+
+            return result;
+        }
+
         public static async void SetDriverStatusToSleepByLogin(string loginDriver)
         {
             Dictionary<string, string> inputData = new Dictionary<string, string>
@@ -350,6 +408,39 @@ namespace Taxi
             };
 
             await _httpClient.PostAsync(GetUrl(ApiFile.PickOrderDriver), new FormUrlEncodedContent(inputData));
+        }
+
+        public static async void SetDriverStatusToDriveByLogin(string loginDriver)
+        {
+            Dictionary<string, string> inputData = new Dictionary<string, string>
+            {
+                { "loginDriver", loginDriver }
+            };
+
+            await _httpClient.PostAsync(GetUrl(ApiFile.SetDriverStatusToDriveByLogin), new FormUrlEncodedContent(inputData));
+        }
+
+        public static async void SetDriverCoordersByLogin(string loginDriver, double latitude, double longitude)
+        {
+            Dictionary<string, string> inputData = new Dictionary<string, string>
+            {
+                { "loginDriver", loginDriver },
+                { "coorders", $"{latitude.ToString().Replace(",", ".")},{longitude.ToString().Replace(",", ".")}" }
+            };
+
+            await _httpClient.PostAsync(GetUrl(ApiFile.SetDriverCoordersByLogin), new FormUrlEncodedContent(inputData));
+        }
+
+        public static async Task<string> GetUserPhoneByOrderId(int idOrder)
+        {
+            Dictionary<string, string> inputData = new Dictionary<string, string>
+            {
+                { "idOrder", $"{idOrder}" }
+            };
+
+            JsonObjecktOne result = JsonConvert.DeserializeObject<JsonObjecktOne>(await RequestApiGetJson(ApiFile.GetUserPhoneByOrderId, inputData));
+
+            return result.Value;
         }
 
         private static string GetUrl(ApiFile name)

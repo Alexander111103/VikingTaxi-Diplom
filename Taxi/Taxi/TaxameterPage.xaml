@@ -5,13 +5,46 @@
              Title="TaxameterPage"
              NavigationPage.HasNavigationBar="False">
 
-    <StackLayout>
-        <Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="0">
+    <AbsoluteLayout>
+        <Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="0" AbsoluteLayout.LayoutBounds="0, 0, 1, 100" AbsoluteLayout.LayoutFlags="WidthProportional">
             <AbsoluteLayout>
                 <Label Text="Таксометр" HorizontalTextAlignment="Center" TextColor="White" FontSize="36" AbsoluteLayout.LayoutBounds="0.5, 0, AutoSize, AutoSize" AbsoluteLayout.LayoutFlags="XProportional" />
                 <Button Text="Меню" Clicked="OpenMenu_Click" BackgroundColor="#2196F3" TextColor="White" FontSize="Subtitle"  AbsoluteLayout.LayoutBounds="0.0075, 10, 80, AutoSize" AbsoluteLayout.LayoutFlags="XProportional" />
             </AbsoluteLayout>
         </Frame>
+        <StackLayout AbsoluteLayout.LayoutBounds="25, 130, 0.5, AutoSize" AbsoluteLayout.LayoutFlags="WidthProportional">
+            <Label Text="Тариф" FontSize="26" TextColor="Black" />
+            <Label x:Name="StartPrice" Text="Цена посадки: 75 Р" FontSize="16" TextColor="Black" Margin="20, 0, 0, 0" />
+            <Label x:Name="MinPrice" Text="Мин цена: 150 Р"  FontSize="16" TextColor="Black" Margin="20, 0, 0, 0" />
+            <Label x:Name="ToKmPrice" Text="Цена за Км: 12 Р" FontSize="18" TextColor="Black" Margin="20, 0, 0, 0" />
+            <Label x:Name="ToMinPrice" Text="Цена за Мин: 5 Р" FontSize="18" TextColor="Black" Margin="20, 0, 0, 0" />
+        </StackLayout>
+        <Image x:Name="Logo" Source="" AbsoluteLayout.LayoutBounds="0.95, 0.18, 175, 175" AbsoluteLayout.LayoutFlags="PositionProportional" />
+        <Frame x:Name="ColorFrame" AbsoluteLayout.LayoutBounds="0, 350, 1, 175" AbsoluteLayout.LayoutFlags="WidthProportional" BackgroundColor="LightGray" >
+            <AbsoluteLayout>
+                <Label x:Name="NowPrice" Text="0 Р" FontSize="60" TextColor="Black" AbsoluteLayout.LayoutBounds="0.5, 0.5, AutoSize, 175" AbsoluteLayout.LayoutFlags="PositionProportional" />
+            </AbsoluteLayout>
+        </Frame>
+        <StackLayout AbsoluteLayout.LayoutBounds="45, 0.75" AbsoluteLayout.LayoutFlags="YProportional">
+            <Label x:Name="NowDistance" Text="Расстояние: 0 КМ." FontSize="18" TextColor="Black"/>
+            <Label x:Name="NowDuration" Text="Время: 00:00:00" FontSize="18" TextColor="Black"/>
+            <Label x:Name="NowStatus" Text="Статус: Ожидание Водителя" FontSize="18" TextColor="Black"/>
+            <Label x:Name="NowPaymentTipe" Text="Способ оплаты: Наличные" FontSize="18" TextColor="Black"/>
+        </StackLayout>
+        <Grid AbsoluteLayout.LayoutBounds="0, 0.98, 1, 0.17" AbsoluteLayout.LayoutFlags="All">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-    </StackLayout>
+            <Button x:Name="PhoneUserButton" Text="Позвонить пассажиру" Grid.Column="0" Grid.Row="0" BackgroundColor="LightGray" Clicked="PhoneUser_Click" />
+            <Button x:Name="AddressesButton" Text="Адреса" Grid.Column="1" Grid.Row="0" BackgroundColor="LightGray" Clicked="Addresses_Click" />
+            <Button x:Name="CancelButton" Text="Отменить поездку" Grid.Column="0" Grid.Row="1" BackgroundColor="IndianRed" Clicked="CancelOrder_Click" />
+            <Button x:Name="StartButton" Text="Ожидать пассажира" Grid.Column="1" Grid.Row="1" BackgroundColor="LightGreen" Clicked="StartWaitingUser_Click" />
+        </Grid>
+    </AbsoluteLayout>
 </ContentPage>

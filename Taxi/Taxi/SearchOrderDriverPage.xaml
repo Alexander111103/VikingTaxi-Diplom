@@ -26,7 +26,7 @@
             </Grid.RowDefinitions>
 
             <StackLayout Grid.Row="0" Grid.Column="0">
-                <Switch HorizontalOptions="Center" PropertyChanged="AutoReloadOrders" />
+                <Switch HorizontalOptions="Center" PropertyChanged="AutoReloadOrders" OnColor="#50cff2" ThumbColor="#2196F3" />
                 <Label Text="Авто обновление 10 секунд" HorizontalTextAlignment="Center" FontSize="12"/>
             </StackLayout>
             <Button Text="Обновить" Grid.Row="0" Grid.Column="1" FontSize="12" Clicked="LoadOrders_Click"/>

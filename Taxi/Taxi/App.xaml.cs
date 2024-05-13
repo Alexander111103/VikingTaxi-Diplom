@@ -9,7 +9,8 @@ namespace Taxi
         public App()
         {
             InitializeComponent();
-            MainPage = new NavigationPage(new Authorization());
+            //MainPage = new NavigationPage(new Authorization());
+            MainPage = new NavigationPage(new TaxameterPage(new FlyoutMenu(), 299));
         }
 
         protected override void OnStart()

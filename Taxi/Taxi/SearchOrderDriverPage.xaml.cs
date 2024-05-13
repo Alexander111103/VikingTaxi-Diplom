@@ -129,68 +129,74 @@ namespace Taxi
 
                 if (await DataBaseApi.GetStatusOrderById(order.Id) == "search")
                 {
-                    _isPick = true;
-                    bool isAnswer = false;
-                    string statusOrder;
-                    App.Current.Properties.TryGetValue("login", out object login);
-                    DateTime timeToCansel = DateTime.Now.Add(new TimeSpan(0, 1, 0));
+                    bool isPick = await DisplayAlert("Подтверждение", "Вы точно хотите взять этот заказ?", "Да", "Нет");
 
-                    CanselOrderDriver.IsEnabled = true;
-                    Sleep.IsEnabled = false;
-                    _idOrder = order.Id;
-
-                    DataBaseApi.PickOrderDriver(order.Id, $"{login}");
-
-                    while (isAnswer == false)
+                    if (isPick)
                     {
-                        await Task.Delay(new TimeSpan(0, 0, 5));
+                        _isPick = true;
+                        bool isAnswer = false;
+                        string statusOrder;
+                        App.Current.Properties.TryGetValue("login", out object login);
+                        DateTime timeToCansel = DateTime.Now.Add(new TimeSpan(0, 1, 0));
 
-                        if (timeToCansel.Subtract(DateTime.Now).Seconds > 0)
+                        CanselOrderDriver.IsEnabled = true;
+                        Sleep.IsEnabled = false;
+                        _idOrder = order.Id;
+
+                        DataBaseApi.PickOrderDriver(order.Id, $"{login}");
+
+                        while (isAnswer == false)
                         {
-                            statusOrder = await DataBaseApi.GetStatusOrderById(order.Id);
+                            await Task.Delay(new TimeSpan(0, 0, 5));
 
-                            switch (statusOrder)
+                            if (timeToCansel.Subtract(DateTime.Now).Seconds > 0)
                             {
-                                case "canseled":
-                                case "search":
-                                    if (_isDoCansel == false)
-                                    {
-                                        DisplayAlert("Отказ", "К сожалению пассажир отказался от поездки.", "Ок");
-                                        _isPick = false;
-                                        isAnswer = true;
-                                        CanselOrderDriver.IsEnabled = false;
-                                        Sleep.IsEnabled = true;
-                                    }
-                                    else
-                                    {
-                                        isAnswer = true;
-                                        _isPick = false;
-                                        _isDoCansel = false;
-                                        CanselOrderDriver.IsEnabled = false;
-                                        Sleep.IsEnabled = true;
-                                    }
-                                    break;
+                                statusOrder = await DataBaseApi.GetStatusOrderById(order.Id);
 
-                                case "waitingDriver":
-                                    isAnswer = true;
-                                    _flyoutMenu.DriverState = "drive";
-                                    _flyoutMenu.TaxameterPage = new TaxameterPage(_flyoutMenu, order.Id);
-                                    await Navigation.PushAsync(_flyoutMenu.TaxameterPage);
-                                    break;
+                                switch (statusOrder)
+                                {
+                                    case "canseled":
+                                    case "search":
+                                        if (_isDoCansel == false)
+                                        {
+                                            DisplayAlert("Отказ", "К сожалению пассажир отказался от поездки.", "Ок");
+                                            _isPick = false;
+                                            isAnswer = true;
+                                            CanselOrderDriver.IsEnabled = false;
+                                            Sleep.IsEnabled = true;
+                                        }
+                                        else
+                                        {
+                                            isAnswer = true;
+                                            _isPick = false;
+                                            _isDoCansel = false;
+                                            CanselOrderDriver.IsEnabled = false;
+                                            Sleep.IsEnabled = true;
+                                        }
+                                        break;
 
-                                case "searched":
-                                default:
-                                    break;
+                                    case "waitingDriver":
+                                        DataBaseApi.SetDriverStatusToDriveByLogin($"{login}");
+                                        isAnswer = true;
+                                        _flyoutMenu.DriverState = "drive";
+                                        _flyoutMenu.TaxameterPage = new TaxameterPage(_flyoutMenu, order.Id);
+                                        await Navigation.PushAsync(_flyoutMenu.TaxameterPage);
+                                        break;
+
+                                    case "searched":
+                                    default:
+                                        break;
+                                }
                             }
-                        }
-                        else
-                        {
-                            DataBaseApi.ReupdateStatusToSearchByIdOrder(order.Id);
-                            DisplayAlert("Отказ", "К сожалению пассажир слишком долго думал.", "Ок");
-                            _isPick = false;
-                            isAnswer = true;
-                            CanselOrderDriver.IsEnabled = false;
-                            Sleep.IsEnabled = true;
+                            else
+                            {
+                                DataBaseApi.ReupdateStatusToSearchByIdOrder(order.Id);
+                                DisplayAlert("Отказ", "К сожалению пассажир слишком долго думал.", "Ок");
+                                _isPick = false;
+                                isAnswer = true;
+                                CanselOrderDriver.IsEnabled = false;
+                                Sleep.IsEnabled = true;
+                            }
                         }
                     }
                 }

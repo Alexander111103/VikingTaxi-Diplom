@@ -30,21 +30,6 @@ namespace Taxi
             }
         }
 
-        public async void testLocation_Click(object sender, EventArgs e)
-        {
-            //var location = await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.Best, TimeSpan.FromSeconds(3)), new CancellationTokenSource().Token);
-            //await DisplayAlert("Ok", $"{location.Latitude.ToString().Replace(",", ".")},{location.Longitude.ToString().Replace(",", ".")}", "Ok");
-            //await location.OpenMapsAsync();
-
-            double test = Location.CalculateDistance(await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.High, TimeSpan.FromSeconds(2)), new CancellationTokenSource().Token), await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.High, TimeSpan.FromSeconds(2)), new CancellationTokenSource().Token), DistanceUnits.Kilometers);
-            DisplayAlert("Ok", $"{test}", "Ok");
-        }
-
-        public async void uved(object sender, EventArgs e)
-        {
-
-        }
-
         protected override bool OnBackButtonPressed()
         {
             return true;

@@ -13,8 +13,7 @@
                 <Button Text="Меню" Clicked="OpenMenu_Click" BackgroundColor="#2196F3" TextColor="White" FontSize="Subtitle"  AbsoluteLayout.LayoutBounds="0.0075, 10, 80, AutoSize" AbsoluteLayout.LayoutFlags="XProportional" />
             </AbsoluteLayout>
         </Frame>
-        <Button Text="test location" Clicked="testLocation_Click" />
-        <Button Text="uved" Clicked="uved" />
+
         <WebView Source="http://taxiviking.ru/test.php?Api_key=test1" VerticalOptions="FillAndExpand" />
     </StackLayout>
 </ContentPage>
