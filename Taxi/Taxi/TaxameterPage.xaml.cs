@@ -27,7 +27,7 @@ namespace Taxi
             _flyoutMenu = menu;
             _idOrder = idOrder;
 
-            _taxameter = new Taxameter(_idOrder);
+            _taxameter = new Taxameter();
 
             Logo.Source = ImageSource.FromResource("Taxi.Images.logo.png");
             SetActualPrice();
@@ -171,6 +171,7 @@ namespace Taxi
 
             NowPrice.Text = $"{_taxameter.GetNowPrice()} Р";
             ColorFrame.BackgroundColor = Color.LightGreen;
+            NowStatus.Text = "Статус: Завершен";
 
             long time = _timer.ElapsedMilliseconds;
             DataBaseApi.SetStatusToEndByIdOrder(_idOrder, time, _taxameter.GetNowPrice());

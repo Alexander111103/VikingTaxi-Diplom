@@ -17,11 +17,10 @@ namespace Taxi
         private Xamarin.Essentials.Location _lastLocation;
         private int _minPrice;
         private int _timeToGetLocation = 2;
-        private int _idOrder;
 
-        public Taxameter(int idOrder)
+        public Taxameter()
         {
-            _idOrder = idOrder;
+
         }
 
         public bool IsActive { get; private set; } = false;
