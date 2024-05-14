@@ -200,9 +200,51 @@ namespace Taxi
             IsPresented = false;
         }
 
-        public void Exit_Click(object sender, EventArgs e)
+        public async void Exit_Click(object sender, EventArgs e)
         {
+            App.Current.Properties.TryGetValue("role", out object role);
+            App.Current.Properties.TryGetValue("login", out object login);
+            int activeOrderId = await DataBaseApi.GetActiveOrderIdByLoginUser($"{login}");
 
+            switch ((string)role)
+            {
+                case "user":
+                    if (activeOrderId == 0)
+                    {
+                        await Navigation.PushAsync(new Authorization());
+                    }
+                    else
+                    {
+                        DisplayAlert("Ошибка", "У вас активный заказ", "Ok");
+                    }
+                    break;
+
+                case "driver":
+                    string status = await DataBaseApi.GetDriverStatusByLogin($"{login}");
+                    if(status == "sleep")
+                    {
+                        if (activeOrderId == 0)
+                        {
+                            await Navigation.PushAsync(new Authorization());
+                        }
+                        else
+                        {
+                            DisplayAlert("Ошибка", "У вас активный заказ", "Ok");
+                        }
+                    }
+                    else
+                    {
+                        DisplayAlert("Ошибка", "Вы не вошлив состояние sleep", "Ok");
+                    }
+                    break;
+
+                case "admin":
+                    await Navigation.PushAsync(new Authorization());
+                    break;
+
+                default: 
+                    break;
+            }
         }
 
         public async void Profile_Click(object sender, EventArgs e)
@@ -657,25 +699,28 @@ namespace Taxi
                     break;
 
                 case "drive":
-                    DisplayAlert("Загрузка", "Загружается активный заказ", "Ок");
                     int idOrder = await DataBaseApi.GetCurrentDriverOrderIdByDriverLogin($"{login}");
-                    DriverState = "drive";
-                    TaxameterPage = new TaxameterPage(this, idOrder);
-                    string statusOrder = await DataBaseApi.GetStatusOrderById(idOrder);
-                    switch (statusOrder)
+                    if (idOrder != 0)
                     {
-                        case "waitingUser":
-                            TaxameterPage.SetToWaitingUserStatus();
-                            break;
+                        DisplayAlert("Загрузка", "Загружается активный заказ", "Ок");
+                        DriverState = "drive";
+                        TaxameterPage = new TaxameterPage(this, idOrder);
+                        string statusOrder = await DataBaseApi.GetStatusOrderById(idOrder);
+                        switch (statusOrder)
+                        {
+                            case "waitingUser":
+                                TaxameterPage.SetToWaitingUserStatus();
+                                break;
 
-                        case "drive":
-                            DisplayAlert("Предупреждение", "Цена заказа не точная, свяжитесь с администратором", "Ок");
-                            TaxameterPage.SetToDriveStatus();
-                            break;
+                            case "drive":
+                                DisplayAlert("Предупреждение", "Цена заказа не точная, свяжитесь с администратором", "Ок");
+                                TaxameterPage.SetToDriveStatus();
+                                break;
 
-                        default:
-                        case "waitingDriver":
-                            break;
+                            default:
+                            case "waitingDriver":
+                                break;
+                        }
                     }
                     break;
             }

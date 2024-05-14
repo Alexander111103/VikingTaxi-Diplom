@@ -165,5 +165,10 @@ namespace Taxi
             this.AbortAnimation("loading");
             loadingFrame.Content = null;
         }
+
+        protected override bool OnBackButtonPressed()
+        {
+            return true;
+        }
     }
 }

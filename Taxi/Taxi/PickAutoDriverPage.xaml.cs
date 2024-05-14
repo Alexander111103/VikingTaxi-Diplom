@@ -91,10 +91,8 @@ namespace Taxi
 
                     DataBaseApi.SetDriverStatusToSearchById(car.Owner, car.Id, $"{location.Latitude.ToString().Replace(",", ".")},{location.Longitude.ToString().Replace(",", ".")}");
                     _flyoutMenu.DriverState = "search";
-
                     _flyoutMenu.SearchOrderDriverPage = new SearchOrderDriverPage(_flyoutMenu);
-
-                    await Navigation.PushAsync(_flyoutMenu.SearchOrderDriverPage);
+                    _flyoutMenu.Detail = new NavigationPage(_flyoutMenu.SearchOrderDriverPage);
                 }
             }
         }

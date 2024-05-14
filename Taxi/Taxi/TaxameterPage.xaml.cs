@@ -267,7 +267,7 @@ namespace Taxi
 
             _flyoutMenu.DriverState = "search";
             _flyoutMenu.SearchOrderDriverPage = new SearchOrderDriverPage(_flyoutMenu);
-            await Navigation.PushAsync(_flyoutMenu.SearchOrderDriverPage);
+            _flyoutMenu.Detail = new NavigationPage(_flyoutMenu.SearchOrderDriverPage);
         }
 
         private async void ShowNotification(string title, string description)

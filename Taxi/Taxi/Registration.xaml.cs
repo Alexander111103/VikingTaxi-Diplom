@@ -129,7 +129,7 @@ namespace Taxi
 
         public async void CustomResolution_Click(object sender, EventArgs e)
         {
-            swichAgree.IsToggled = await DisplayAlert("Пользовательсое Соглашение", "Lorem ipsum", "Принять", "Отказаться");
+            swichAgree.IsToggled = await DisplayAlert("Пользовательсое Соглашение", "Тут могло быть пользовательское соглашение", "Принять", "Отказаться");
         }
 
         private void StartAnimationLoading()

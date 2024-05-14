@@ -58,10 +58,8 @@ namespace Taxi
             DataBaseApi.SetDriverStatusToSleepByLogin($"{login}");
 
             _flyoutMenu.DriverState = "pickAuto";
-
             _flyoutMenu.PickAutoDriverPage = new PickAutoDriverPage(_flyoutMenu);
-
-            await Navigation.PushAsync(_flyoutMenu.PickAutoDriverPage);
+            _flyoutMenu.Detail = new NavigationPage(_flyoutMenu.PickAutoDriverPage);
         }
 
         private async void LoadOrders_Click(object sender, EventArgs e)
@@ -180,7 +178,7 @@ namespace Taxi
                                         isAnswer = true;
                                         _flyoutMenu.DriverState = "drive";
                                         _flyoutMenu.TaxameterPage = new TaxameterPage(_flyoutMenu, order.Id);
-                                        await Navigation.PushAsync(_flyoutMenu.TaxameterPage);
+                                        _flyoutMenu.Detail = new NavigationPage(_flyoutMenu.TaxameterPage);
                                         break;
 
                                     case "searched":
