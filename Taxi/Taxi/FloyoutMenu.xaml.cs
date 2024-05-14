@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -609,6 +608,8 @@ namespace Taxi
                 _buttons.Add(_myCarsDriverButton);
 
                 PickAutoDriverPage = new PickAutoDriverPage(this);
+
+                LoadDriverStatus();
             }
 
             if (role == "admin")
@@ -636,6 +637,47 @@ namespace Taxi
                 _buttons.Add(_adminHub);
 
                 _adminHubPage = new AdminHubPage(this);
+            }
+        }
+
+        private async void LoadDriverStatus()
+        {
+            App.Current.Properties.TryGetValue("login", out object login);
+            string status = await DataBaseApi.GetDriverStatusByLogin($"{login}");
+
+            switch (status)
+            {
+                default:
+                case "sleep":
+                    break;
+
+                case "search":
+                    DriverState = "search";
+                    SearchOrderDriverPage = new SearchOrderDriverPage(this);
+                    break;
+
+                case "drive":
+                    DisplayAlert("Загрузка", "Загружается активный заказ", "Ок");
+                    int idOrder = await DataBaseApi.GetCurrentDriverOrderIdByDriverLogin($"{login}");
+                    DriverState = "drive";
+                    TaxameterPage = new TaxameterPage(this, idOrder);
+                    string statusOrder = await DataBaseApi.GetStatusOrderById(idOrder);
+                    switch (statusOrder)
+                    {
+                        case "waitingUser":
+                            TaxameterPage.SetToWaitingUserStatus();
+                            break;
+
+                        case "drive":
+                            DisplayAlert("Предупреждение", "Цена заказа не точная, свяжитесь с администратором", "Ок");
+                            TaxameterPage.SetToDriveStatus();
+                            break;
+
+                        default:
+                        case "waitingDriver":
+                            break;
+                    }
+                    break;
             }
         }
 

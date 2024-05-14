@@ -39,7 +39,47 @@ namespace Taxi
             Device.StartTimer(TimeSpan.FromSeconds(1), TimerTick);
         }
 
-        public void OpenMenu_Click(object sender, EventArgs e)
+        public void SetToWaitingUserStatus()
+        {
+            StartButton.Clicked -= StartWaitingUser_Click;
+            StartButton.BackgroundColor = Color.FromHex("#f5f578");
+            StartButton.Text = "Начать поездку";
+            StartButton.Clicked += StartDrive_Click;
+
+            ColorFrame.BackgroundColor = Color.CadetBlue;
+            NowStatus.Text = "Статус: Ожидание Пассажира";
+
+            _isTimerStart = false;
+        }
+
+        public async void SetToDriveStatus()
+        {
+            _isTimerStart = false;
+
+            CancelButton.Clicked -= CancelOrder_Click;
+            CancelButton.BackgroundColor = Color.FromHex("#eb8034");
+            CancelButton.Text = "Пауза";
+            CancelButton.Clicked += Pause_Click;
+
+            StartButton.Clicked -= StartWaitingUser_Click;
+            StartButton.Clicked -= StartDrive_Click;
+            StartButton.BackgroundColor = Color.LightGreen;
+            StartButton.Text = "Завершить поездку";
+            StartButton.IsEnabled = false;
+            StartButton.Clicked += End_Click;
+
+            ColorFrame.BackgroundColor = Color.LightGray;
+            NowStatus.Text = "Статус: В поездке";
+
+            _isTimerStart = true;
+            _isCheckUserCancel = false;
+            _timer.Restart();
+            await _taxameter.Start();
+
+            Device.StartTimer(TimeSpan.FromSeconds(1), TimerTick);
+        }
+
+        private void OpenMenu_Click(object sender, EventArgs e)
         {
             if (_flyoutMenu.IsPresented == false)
             {
@@ -92,45 +132,20 @@ namespace Taxi
 
         private async void StartWaitingUser_Click(object sender, EventArgs e)
         {
-            StartButton.Clicked -= StartWaitingUser_Click;
-            StartButton.BackgroundColor = Color.FromHex("#f5f578");
-            StartButton.Text = "Начать поездку";
-            StartButton.Clicked += StartDrive_Click;
-
-            ColorFrame.BackgroundColor = Color.CadetBlue;
-            NowStatus.Text = "Статус: Ожидание Пассажира";
+            SetToWaitingUserStatus();
 
             long time = _timer.ElapsedMilliseconds;
-            _isTimerStart = false;
             DataBaseApi.SetStatusToWaitingUserByIdOrder(_idOrder, time);
         }
 
         private async void StartDrive_Click(object sender, EventArgs e)
         {
-            CancelButton.Clicked -= CancelOrder_Click;
-            CancelButton.BackgroundColor = Color.FromHex("#eb8034");
-            CancelButton.Text = "Пауза";
-            CancelButton.Clicked += Pause_Click;
+            SetToDriveStatus();
 
-            StartButton.Clicked -= StartDrive_Click;
-            StartButton.BackgroundColor = Color.LightGreen;
-            StartButton.Text = "Завершить поездку";
-            StartButton.IsEnabled = false;
-            StartButton.Clicked += End_Click;
-
-            ColorFrame.BackgroundColor = Color.LightGray;
-            NowStatus.Text = "Статус: В поездке";
-
-            DataBaseApi.SetStatusToDriveByIdOrder(_idOrder);
-
-            _isTimerStart = true;
-            _isCheckUserCancel = false;
-            _timer.Restart();
-            await _taxameter.Start();
-            Device.StartTimer(TimeSpan.FromSeconds(1), TimerTick);
+            DataBaseApi.SetStatusToDriveByIdOrder(_idOrder);            
         }
 
-        private async void Pause_Click(object sender, EventArgs e)
+        private void Pause_Click(object sender, EventArgs e)
         {
             CancelButton.Clicked -= Pause_Click;
             CancelButton.BackgroundColor = Color.FromHex("#f5f578");

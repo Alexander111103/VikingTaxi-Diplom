@@ -50,7 +50,9 @@ namespace Taxi
             SetDriverCoordersByLogin,
             PickOrderDriver,
             SetDriverStatusToDriveByLogin,
-            GetUserPhoneByOrderId
+            GetUserPhoneByOrderId,
+            GetDriverStatusByLogin,
+            GetCurrentDriverOrderIdByDriverLogin
         }
 
         public static async Task<int> GetCountByLogin(string login)
@@ -441,6 +443,30 @@ namespace Taxi
             JsonObjecktOne result = JsonConvert.DeserializeObject<JsonObjecktOne>(await RequestApiGetJson(ApiFile.GetUserPhoneByOrderId, inputData));
 
             return result.Value;
+        }
+
+        public static async Task<string> GetDriverStatusByLogin(string login)
+        {
+            Dictionary<string, string> inputData = new Dictionary<string, string>
+            {
+                { "login", login }
+            };
+
+            JsonObjecktOne result = JsonConvert.DeserializeObject<JsonObjecktOne>(await RequestApiGetJson(ApiFile.GetDriverStatusByLogin, inputData));
+
+            return result.Value;
+        }
+
+        public static async Task<int> GetCurrentDriverOrderIdByDriverLogin(string loginDriver)
+        {
+            Dictionary<string, string> inputData = new Dictionary<string, string>
+            {
+                { "login", loginDriver }
+            };
+
+            JsonObjecktOne result = JsonConvert.DeserializeObject<JsonObjecktOne>(await RequestApiGetJson(ApiFile.GetCurrentDriverOrderIdByDriverLogin, inputData));
+
+            return Convert.ToInt32(result.Value);
         }
 
         private static string GetUrl(ApiFile name)
