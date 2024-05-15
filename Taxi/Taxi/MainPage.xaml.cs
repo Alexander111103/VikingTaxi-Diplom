@@ -427,21 +427,15 @@ namespace Taxi
                 _fastSearchButton = new Button()
                 {
                     Text = "Срочный поиск",
-                    FontSize = 16,
+                    FontSize = 14,
                     BackgroundColor = Color.FromHex("#293133"),
                     TextColor = Color.White,
-                    ImageSource = ImageSource.FromResource("Taxi.Images.fastSearchHorseUWP.png"),
+                    ImageSource = ImageSource.FromResource("Taxi.Images.fastSearchHorseAndroid.png"),
                     ContentLayout = new Button.ButtonContentLayout(Button.ButtonContentLayout.ImagePosition.Right, 10),
                     CornerRadius = 10
                 };
 
                 _fastSearchButton.Clicked += FastSearch_Click;
-
-                if (Device.RuntimePlatform == Device.Android)
-                {
-                    _fastSearchButton.FontSize = 14;
-                    _fastSearchButton.ImageSource = ImageSource.FromResource("Taxi.Images.fastSearchHorseAndroid.png");
-                }
 
                 fast.Children.Add(_fastSearchButton);
             }
