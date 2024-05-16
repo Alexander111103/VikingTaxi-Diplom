@@ -13,6 +13,18 @@
             </AbsoluteLayout>
         </Frame>
         <WebView x:Name="map" Source="http://taxiviking.ru/api/map/GetMap.php?Api_key=k6uy6ien-v9cj-wi5h-nnd0-skp7m423s8jo" VerticalOptions="FillAndExpand" AbsoluteLayout.LayoutBounds="0, 100, 1, 0.95" AbsoluteLayout.LayoutFlags="SizeProportional" />
+        <Grid x:Name="myAdresses" AbsoluteLayout.LayoutBounds="0.5, 0.91, 280, 40" AbsoluteLayout.LayoutFlags="PositionProportional">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Button Text="Откуда" Grid.Column="0" Grid.Row="0" FontSize="12" BackgroundColor="#2196F3" TextColor="White" Clicked="FromAdress_Click"/>
+            <Button Text="Куда" Grid.Column="1" Grid.Row="0"  FontSize="12" BackgroundColor="#2196F3" TextColor="White" Clicked="ToAdress_Click"/>
+        </Grid>
         <Frame x:Name="infoFrame" BackgroundColor="White" WidthRequest="335" HeightRequest="30" CornerRadius="8" HorizontalOptions="Center" VerticalOptions="Center" AbsoluteLayout.LayoutBounds="0.5, 1.01" AbsoluteLayout.LayoutFlags="PositionProportional" >
             <StackLayout x:Name="infoStackLayout">
                 <Button x:Name="routeAgreeButton" Text="Подтвердить маршрут" Clicked="RouteAgree_Click" BackgroundColor="#2196F3" TextColor="White" Margin="0, -10, 0, 0"/>

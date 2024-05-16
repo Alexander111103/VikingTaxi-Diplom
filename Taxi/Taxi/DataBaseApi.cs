@@ -1,4 +1,5 @@
 ﻿using Android.Icu.Text;
+using Android.Locations;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -52,7 +53,10 @@ namespace Taxi
             SetDriverStatusToDriveByLogin,
             GetUserPhoneByOrderId,
             GetDriverStatusByLogin,
-            GetCurrentDriverOrderIdByDriverLogin
+            GetCurrentDriverOrderIdByDriverLogin,
+            GetFavoriteAddressesByLogin,
+            RemoveFavoriteAddressById,
+            AddFavoriteAddress
         }
 
         public static async Task<int> GetCountByLogin(string login)
@@ -467,6 +471,40 @@ namespace Taxi
             JsonObjecktOne result = JsonConvert.DeserializeObject<JsonObjecktOne>(await RequestApiGetJson(ApiFile.GetCurrentDriverOrderIdByDriverLogin, inputData));
 
             return Convert.ToInt32(result.Value);
+        }
+
+        public static async Task<JsonFavoriteAddresses> GetFavoriteAddressesByLogin(string login)
+        {
+            Dictionary<string, string> inputData = new Dictionary<string, string>
+            {
+                { "login", login }
+            };
+
+            JsonFavoriteAddresses result = JsonConvert.DeserializeObject<JsonFavoriteAddresses>(await RequestApiGetJson(ApiFile.GetFavoriteAddressesByLogin, inputData));
+
+            return result;
+        }
+
+        public static async void RemoveFavoriteAddressById(int addressId)
+        {
+            Dictionary<string, string> inputData = new Dictionary<string, string>
+            {
+                { "id", $"{addressId}" }
+            };
+
+            await _httpClient.PostAsync(GetUrl(ApiFile.RemoveFavoriteAddressById), new FormUrlEncodedContent(inputData));
+        }
+
+        public static async void AddFavoriteAddress(string loginUser, string name, string coorders)
+        {
+            Dictionary<string, string> inputData = new Dictionary<string, string>
+            {
+                { "login", loginUser },
+                { "name", name },
+                { "coorders", coorders }
+            };
+
+            await _httpClient.PostAsync(GetUrl(ApiFile.AddFavoriteAddress), new FormUrlEncodedContent(inputData));
         }
 
         private static string GetUrl(ApiFile name)

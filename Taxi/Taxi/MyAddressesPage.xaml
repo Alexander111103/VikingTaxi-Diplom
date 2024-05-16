@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Taxi.MyAddressesPage"
+             Title="MyAddressesPage"
+             NavigationPage.HasNavigationBar="False">
+
+    <AbsoluteLayout>
+        <Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="0"  AbsoluteLayout.LayoutBounds="0, 0, 1, 100" AbsoluteLayout.LayoutFlags="WidthProportional">
+            <AbsoluteLayout>
+                <Label Text="Мои адреса" HorizontalTextAlignment="Center" TextColor="White" FontSize="36" AbsoluteLayout.LayoutBounds="0.5, 0, AutoSize, AutoSize" AbsoluteLayout.LayoutFlags="XProportional" />
+                <Button Text="Меню" Clicked="OpenMenu_Click" BackgroundColor="#2196F3" TextColor="White" FontSize="Subtitle"  AbsoluteLayout.LayoutBounds="0.0075, 10, 80, AutoSize" AbsoluteLayout.LayoutFlags="XProportional" />
+            </AbsoluteLayout>
+        </Frame>
+        <RefreshView x:Name="refreshView" RefreshColor="#2196F3" IsRefreshing="{Binding IsRefreshind}" Command="{Binding Command}" AbsoluteLayout.LayoutBounds="0, 0.2, 1, 0.42" AbsoluteLayout.LayoutFlags="All">
+            <ListView x:Name="listView">
+
+            </ListView>
+        </RefreshView>
+        <WebView x:Name="map" Source=""  VerticalOptions="FillAndExpand"  AbsoluteLayout.LayoutBounds="0, 1.08, 1, 0.5" AbsoluteLayout.LayoutFlags="All" />
+        <Button Text="Добавить адрес" AbsoluteLayout.LayoutBounds="0.5, 0.99, 300, 60" AbsoluteLayout.LayoutFlags="PositionProportional" BackgroundColor="#2196F3" TextColor="White" Clicked="AddNewAddress_Click" />
+    </AbsoluteLayout>
+</ContentPage>

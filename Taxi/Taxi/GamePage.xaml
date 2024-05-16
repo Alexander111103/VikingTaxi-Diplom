@@ -1,19 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:windows="clr-namespace:Xamarin.Forms.PlatformConfiguration.WindowsSpecific;assembly=Xamarin.Forms.Core"
-             x:Class="Taxi.HistoryOrdersPage"
-             Title="HistoryOrdersPage"
+             x:Class="Taxi.GamePage"
+             Title="GamePage"
              NavigationPage.HasNavigationBar="False">
 
     <StackLayout>
         <Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="0">
             <AbsoluteLayout>
-                <Label Text="Test" HorizontalTextAlignment="Center" TextColor="White" FontSize="36" AbsoluteLayout.LayoutBounds="0.5, 0, AutoSize, AutoSize" AbsoluteLayout.LayoutFlags="XProportional" />
+                <Label Text="Игра" HorizontalTextAlignment="Center" TextColor="White" FontSize="36" AbsoluteLayout.LayoutBounds="0.5, 0, AutoSize, AutoSize" AbsoluteLayout.LayoutFlags="XProportional" />
                 <Button Text="Меню" Clicked="OpenMenu_Click" BackgroundColor="#2196F3" TextColor="White" FontSize="Subtitle"  AbsoluteLayout.LayoutBounds="0.0075, 10, 80, AutoSize" AbsoluteLayout.LayoutFlags="XProportional" />
             </AbsoluteLayout>
         </Frame>
 
-        <WebView Source="http://taxiviking.ru/test.php?Api_key=test1" VerticalOptions="FillAndExpand" />
+        <Label Text="Скоро будет." TextColor="Gray"  />
     </StackLayout>
 </ContentPage>

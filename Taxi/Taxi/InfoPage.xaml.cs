@@ -1,19 +1,17 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Xamarin.Essentials;
-using System.Threading;
 
 namespace Taxi
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class HistoryOrdersPage : ContentPage
-	{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class InfoPage : ContentPage
+    {
         private FlyoutMenu _flyoutMenu;
 
-        public HistoryOrdersPage(FlyoutMenu menu)
-		{
-			InitializeComponent ();
+        public InfoPage(FlyoutMenu menu)
+        {
+            InitializeComponent();
 
             _flyoutMenu = menu;
         }

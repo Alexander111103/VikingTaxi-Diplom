@@ -13,6 +13,10 @@ namespace Taxi
     {
         private MainPage _mainPage;
         private HistoryOrdersPage _historyOrdersPage;
+        private MyAddressesPage _addressesPage;
+        private GamePage _gamePage;
+        private OptionsPage _optionsPage;
+        private InfoPage _infoPage;
         private AdminHubPage _adminHubPage;
 
         public PickAutoDriverPage PickAutoDriverPage;
@@ -37,6 +41,10 @@ namespace Taxi
             InitializeComponent();
             _mainPage = new MainPage(this);
             _historyOrdersPage = new HistoryOrdersPage(this);
+            _addressesPage = new MyAddressesPage(this);
+            _gamePage = new GamePage(this);
+            _optionsPage = new OptionsPage(this);
+            _infoPage = new InfoPage(this);
 
             Detail = new NavigationPage(_mainPage);
 
@@ -56,7 +64,7 @@ namespace Taxi
             SetRole();
         }
 
-        public async void OrderTaxi_Click(object sender, EventArgs e)
+        private async void OrderTaxi_Click(object sender, EventArgs e)
         {
             if (PageNumber != 0)
             {
@@ -102,7 +110,7 @@ namespace Taxi
             IsPresented = false;
         }
 
-        public async void HistoryOrders_Click(object sender, EventArgs e)
+        private async void HistoryOrders_Click(object sender, EventArgs e)
         {
             if (PageNumber != 1)
             {
@@ -121,12 +129,12 @@ namespace Taxi
             IsPresented = false;
         }
 
-        public async void MyAdresses_Click(object sender, EventArgs e)
+        private async void MyAdresses_Click(object sender, EventArgs e)
         {
             if (PageNumber != 2)
             {
                 DisableAllButtons();
-                Detail = new NavigationPage(_historyOrdersPage);
+                Detail = new NavigationPage(_addressesPage);
 
                 myAdresses.TextColor = Color.Gray;
                 myAdresses.BorderColor = Color.Black;
@@ -140,12 +148,12 @@ namespace Taxi
             IsPresented = false;
         }
 
-        public async void Game_Click(object sender, EventArgs e)
+        private async void Game_Click(object sender, EventArgs e)
         {
             if (PageNumber != 3)
             {
                 DisableAllButtons();
-                Detail = new NavigationPage(_historyOrdersPage);
+                Detail = new NavigationPage(_gamePage);
 
                 game.TextColor = Color.Gray;
                 game.BorderColor = Color.Black;
@@ -159,12 +167,12 @@ namespace Taxi
             IsPresented = false;
         }
 
-        public async void Options_Click(object sender, EventArgs e)
+        private async void Options_Click(object sender, EventArgs e)
         {
             if (PageNumber != 4)
             {
                 DisableAllButtons();
-                Detail = new NavigationPage(_historyOrdersPage);
+                Detail = new NavigationPage(_optionsPage);
 
                 options.TextColor = Color.Gray;
                 options.BorderColor = Color.Black;
@@ -178,12 +186,12 @@ namespace Taxi
             IsPresented = false;
         }
 
-        public async void InfoTaxi_Click(object sender, EventArgs e)
+        private async void InfoTaxi_Click(object sender, EventArgs e)
         {
             if (PageNumber != 5)
             {
                 DisableAllButtons();
-                Detail = new NavigationPage(_historyOrdersPage);
+                Detail = new NavigationPage(_infoPage);
 
                 infoTaxi.TextColor = Color.Gray;
                 infoTaxi.BorderColor = Color.Black;
@@ -197,7 +205,7 @@ namespace Taxi
             IsPresented = false;
         }
 
-        public async void Exit_Click(object sender, EventArgs e)
+        private async void Exit_Click(object sender, EventArgs e)
         {
             App.Current.Properties.TryGetValue("role", out object role);
             App.Current.Properties.TryGetValue("login", out object login);
@@ -244,7 +252,7 @@ namespace Taxi
             }
         }
 
-        public async void Profile_Click(object sender, EventArgs e)
+        private async void Profile_Click(object sender, EventArgs e)
         {
             if (PageNumber != 6)
             {
@@ -263,7 +271,7 @@ namespace Taxi
             IsPresented = false;
         }
 
-        public async void SearchOrderDriver_Click(object sender, EventArgs e)
+        private async void SearchOrderDriver_Click(object sender, EventArgs e)
         {
             if (PageNumber != 7)
             {
@@ -296,7 +304,7 @@ namespace Taxi
             IsPresented = false;
         }
 
-        public async void HistoryOrdersDriver_Click(object sender, EventArgs e)
+        private async void HistoryOrdersDriver_Click(object sender, EventArgs e)
         {
             if (PageNumber != 8)
             {
@@ -315,7 +323,7 @@ namespace Taxi
             IsPresented = false;
         }
 
-        public async void AdminHub_Click(object sender, EventArgs e)
+        private async void AdminHub_Click(object sender, EventArgs e)
         {
             if (PageNumber != 7)
             {

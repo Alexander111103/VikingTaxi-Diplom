@@ -73,7 +73,7 @@ namespace Taxi
         {
             App.Current.Properties.TryGetValue("login", out object login);
 
-            _lastLocation = await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.High, TimeSpan.FromSeconds(_timeToGetLocation)), new CancellationTokenSource().Token); ;
+            _lastLocation = await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.High, TimeSpan.FromSeconds(_timeToGetLocation)), new CancellationTokenSource().Token);
 
             while (IsActive)
             {

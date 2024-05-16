@@ -4,6 +4,7 @@ using Xamarin.Forms;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
+using System.Collections.Generic;
 
 namespace Taxi
 {
@@ -31,6 +32,7 @@ namespace Taxi
         private string _rate = "base";
         private string _priority = "0";
         private string _price;
+        private string _ecoPrice;
         private string _paymentType = "cash";
         private int _idOrder;
         private string _phoneDriver;
@@ -51,7 +53,7 @@ namespace Taxi
             LoadingActiveOrder();
         }
 
-        public async void RouteAgree_Click(object sender, EventArgs e)
+        private async void RouteAgree_Click(object sender, EventArgs e)
         {
             routeAgreeButton.Clicked -= RouteAgree_Click;
 
@@ -61,7 +63,9 @@ namespace Taxi
 
             if (RouteInfo.Distance != null && RouteInfo.Distance != "")
             {
-                _price = await GetPrice(RouteInfo.Distance, RouteInfo.DurationInTraffic); 
+                _price = await GetPrice(RouteInfo.Distance, RouteInfo.DurationInTraffic);
+
+                _ecoPrice = _price;
 
                 await AnimateHeightInfoFrame(200, 500);
 
@@ -96,7 +100,7 @@ namespace Taxi
             }
         }
 
-        public async void RouteReset_Click(object sender, EventArgs e)
+        private async void RouteReset_Click(object sender, EventArgs e)
         {
             infoLabel.Text = "";
             priceLabel.Text = "";
@@ -115,7 +119,59 @@ namespace Taxi
             routeAgreeButton.Clicked += RouteAgree_Click;
         }
 
-        public async void OrderTaxi_Click(object sender, EventArgs e)
+        private async void FromAdress_Click(object sender, EventArgs e)
+        {
+            ((Button)sender).Clicked -= FromAdress_Click;
+
+            App.Current.Properties.TryGetValue("login", out object login);
+
+            JsonFavoriteAddresses addresses = await DataBaseApi.GetFavoriteAddressesByLogin($"{login}");
+            List<string> names = new List<string>();
+
+            foreach(var address in addresses.Addresses)
+            {
+                names.Add(address.Name);
+            }
+
+            string FromAddress = await DisplayActionSheet("Выберите избранный адрес для начальной точки маршрута.", null, null, names.ToArray());
+
+            if (FromAddress != null)
+            {
+                string coorders = (addresses.Addresses.Find(x => x.Name == FromAddress)).Coorders;
+
+                map.EvaluateJavaScriptAsync($"SetFromAddress('{coorders}')");
+            }
+
+            ((Button)sender).Clicked += FromAdress_Click;
+        }
+
+        private async void ToAdress_Click(object sender, EventArgs e)
+        {
+            ((Button)sender).Clicked -= ToAdress_Click;
+
+            App.Current.Properties.TryGetValue("login", out object login);
+
+            JsonFavoriteAddresses addresses = await DataBaseApi.GetFavoriteAddressesByLogin($"{login}");
+            List<string> names = new List<string>();
+
+            foreach (var address in addresses.Addresses)
+            {
+                names.Add(address.Name);
+            }
+
+            string FromAddress = await DisplayActionSheet("Выберите избранный адрес для конечной точки маршрута.", null, null, names.ToArray());
+
+            if (FromAddress != null)
+            {
+                string coorders = (addresses.Addresses.Find(x => x.Name == FromAddress)).Coorders;
+
+                map.EvaluateJavaScriptAsync($"SetToAddress('{coorders}')");
+            }
+
+            ((Button)sender).Clicked += ToAdress_Click;
+        }
+
+        private async void OrderTaxi_Click(object sender, EventArgs e)
         {
             await SetOptionsInfoFrameOnSearch();
 
@@ -134,7 +190,7 @@ namespace Taxi
             return _flyoutMenu.IsTimerStart;
         }
 
-        public void OpenMenu_Click(object sender, EventArgs e)
+        private void OpenMenu_Click(object sender, EventArgs e)
         {   
             if(_flyoutMenu.IsPresented == false)
             {
@@ -146,7 +202,7 @@ namespace Taxi
             }
         }
 
-        public void RateEco_Click(object sender, EventArgs e)
+        private void RateEco_Click(object sender, EventArgs e)
         {
             if(_rate != "base")
             {
@@ -159,14 +215,7 @@ namespace Taxi
                 rateChild.BackgroundColor = Color.White;
                 rateChild.TextColor = Color.Black;
 
-                if(_rate == "business")
-                {
-                    _price = Convert.ToString(Convert.ToInt32(_price) - 100);
-                }
-                if (_rate == "child")
-                {
-                    _price = Convert.ToString(Convert.ToInt32(_price) - 50);
-                }
+                _price = _ecoPrice;
 
                 priceLabel.Text = $"Цена: {_price} рублей.";
 
@@ -175,7 +224,7 @@ namespace Taxi
             }
         }
 
-        public void RateBusiness_Click(object sender, EventArgs e)
+        private void RateBusiness_Click(object sender, EventArgs e)
         {
             if (_rate != "business")
             {
@@ -188,14 +237,7 @@ namespace Taxi
                 rateChild.BackgroundColor = Color.White;
                 rateChild.TextColor = Color.Black;
 
-                if (_rate == "base")
-                {
-                    _price = Convert.ToString(Convert.ToInt32(_price) + 100);
-                }
-                if (_rate == "child")
-                {
-                    _price = Convert.ToString(Convert.ToInt32(_price) + 50);
-                }
+                _price = Convert.ToString(Convert.ToInt32(_ecoPrice) + 100);
 
                 priceLabel.Text = $"Цена: {_price} рублей.";
 
@@ -204,7 +246,7 @@ namespace Taxi
             }
         }
 
-        public void RateChild_Click(object sender, EventArgs e)
+        private void RateChild_Click(object sender, EventArgs e)
         {
             if (_rate != "child")
             {
@@ -217,14 +259,7 @@ namespace Taxi
                 rateChild.BackgroundColor = Color.FromHex("#2196f3");
                 rateChild.TextColor = Color.White;
 
-                if (_rate == "base")
-                {
-                    _price = Convert.ToString(Convert.ToInt32(_price) + 50);
-                }
-                if (_rate == "business")
-                {
-                    _price = Convert.ToString(Convert.ToInt32(_price) - 50);
-                }
+                _price = Convert.ToString(Convert.ToInt32(_ecoPrice) + 50);
 
                 priceLabel.Text = $"Цена: {_price} рублей.";
 
@@ -233,7 +268,7 @@ namespace Taxi
             }
         }
 
-        public async void FastSearch_Click(object sender, EventArgs e)
+        private async void FastSearch_Click(object sender, EventArgs e)
         {
             bool isAgree = false;
 
@@ -250,7 +285,7 @@ namespace Taxi
             }
         }
 
-        public async void Cancel_Click(object sender, EventArgs e)
+        private async void Cancel_Click(object sender, EventArgs e)
         {
             _cancelOrder.Clicked -= Cancel_Click;
 
@@ -268,7 +303,7 @@ namespace Taxi
             }
         }
 
-        public void PhoneCallDriver_Click(object sender, EventArgs e)
+        private void PhoneCallDriver_Click(object sender, EventArgs e)
         {
             PhoneDialer.Open(_phoneDriver);
         }
@@ -355,6 +390,8 @@ namespace Taxi
 
         public async Task<string> SetOptionsInfoFrameOnSearch()
         {
+            stackLayout.Children.Remove(myAdresses);
+
             infoStackLayout.Children.Clear();
 
             if (_flyoutMenu.PageNumber == 0)

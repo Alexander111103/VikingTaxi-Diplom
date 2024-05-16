@@ -24,7 +24,7 @@ namespace Taxi
             SetCookie();
         }
 
-        public void OpenMenu_Click(object sender, EventArgs e)
+        private void OpenMenu_Click(object sender, EventArgs e)
         {
             if (_flyoutMenu.IsPresented == false)
             {

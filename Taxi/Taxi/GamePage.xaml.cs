@@ -1,19 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Xamarin.Essentials;
-using System.Threading;
 
 namespace Taxi
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class HistoryOrdersPage : ContentPage
-	{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class GamePage : ContentPage
+    {
         private FlyoutMenu _flyoutMenu;
 
-        public HistoryOrdersPage(FlyoutMenu menu)
-		{
-			InitializeComponent ();
+        public GamePage(FlyoutMenu menu)
+        {
+            InitializeComponent();
 
             _flyoutMenu = menu;
         }

@@ -71,9 +71,7 @@ namespace Taxi
                     {
                         StopAnimationLoading();
 
-                        await DisplayAlert("Успех", $"Вы успешно вошли.", "Ok");
-
-                        buttonLogin.Clicked += Authorization_Click;
+                        await Task.Delay(new TimeSpan(0, 0, 1));
 
                         if (App.Current.Properties.TryGetValue("login", out login))
                         {
