@@ -1,22 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-
-             x:Class="Taxi.HistoryOrdersPage"
-             Title="HistoryOrdersPage"
+             xmlns:windows="clr-namespace:Xamarin.Forms.PlatformConfiguration.WindowsSpecific;assembly=Xamarin.Forms.Core"
+             x:Class="Taxi.ProfilePage"
+             Title="ProfilePage"
              NavigationPage.HasNavigationBar="False">
 
     <StackLayout>
         <Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="0">
             <AbsoluteLayout>
-                <Label Text="История заказов" HorizontalTextAlignment="Center" TextColor="White" FontSize="22" AbsoluteLayout.LayoutBounds="0.55, 20, AutoSize, AutoSize" AbsoluteLayout.LayoutFlags="XProportional" />
+                <Label Text="Профиль" HorizontalTextAlignment="Center" TextColor="White" FontSize="36" AbsoluteLayout.LayoutBounds="0.5, 0, AutoSize, AutoSize" AbsoluteLayout.LayoutFlags="XProportional" />
                 <Button Text="Меню" Clicked="OpenMenu_Click" BackgroundColor="#2196F3" TextColor="White" FontSize="Subtitle"  AbsoluteLayout.LayoutBounds="0.0075, 10, 80, AutoSize" AbsoluteLayout.LayoutFlags="XProportional" />
             </AbsoluteLayout>
         </Frame>
-        <RefreshView x:Name="refreshView" RefreshColor="#2196F3" IsRefreshing="{Binding IsRefreshind}" Command="{Binding Command}">
-            <ListView x:Name="listView" SeparatorColor="#2196F3">
 
-            </ListView>
-        </RefreshView>
+        <WebView x:Name="changer" Source="http://taxiviking.ru/profile/index.php?Api_key=k6uy6ien-v9cj-wi5h-nnd0-skp7m423s8jo" VerticalOptions="FillAndExpand" />
     </StackLayout>
 </ContentPage>

@@ -18,6 +18,8 @@ namespace Taxi
             _flyoutMenu = menu;
 
             SetListView();
+
+            refreshView.Command = new Command(SetListView);
         }
 
         private void OpenMenu_Click(object sender, EventArgs e)
@@ -34,6 +36,7 @@ namespace Taxi
 
         private async void SetListView()
         {
+            refreshView.IsRefreshing = true;
             App.Current.Properties.TryGetValue("login", out object login);
             listView.ItemsSource = (await DataBaseApi.GetDriverCarsByDriverLogin($"{login}")).Cars;
             listView.HasUnevenRows = true;
@@ -75,6 +78,7 @@ namespace Taxi
                 return viewCell;
             });
             listView.ItemTapped += ListViewItemTapped;
+            refreshView.IsRefreshing = false;
         }
 
         private async void ListViewItemTapped(object sender, ItemTappedEventArgs e)

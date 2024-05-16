@@ -12,11 +12,13 @@ namespace Taxi
     public partial class FlyoutMenu : FlyoutPage
     {
         private MainPage _mainPage;
+        private ProfilePage _profilePage;
         private HistoryOrdersPage _historyOrdersPage;
         private MyAddressesPage _addressesPage;
         private GamePage _gamePage;
         private OptionsPage _optionsPage;
         private InfoPage _infoPage;
+        private HistoryOrdersDriverPage _historyOrdersDriverPage;
         private AdminHubPage _adminHubPage;
 
         public PickAutoDriverPage PickAutoDriverPage;
@@ -40,6 +42,7 @@ namespace Taxi
         {
             InitializeComponent();
             _mainPage = new MainPage(this);
+            _profilePage = new ProfilePage(this);
             _historyOrdersPage = new HistoryOrdersPage(this);
             _addressesPage = new MyAddressesPage(this);
             _gamePage = new GamePage(this);
@@ -257,7 +260,7 @@ namespace Taxi
             if (PageNumber != 6)
             {
                 DisableAllButtons();
-                Detail = new NavigationPage(_historyOrdersPage);
+                Detail = new NavigationPage(_profilePage);
 
                 profile.TextColor = Color.Gray;
                 profile.BorderColor = Color.Black;
@@ -309,7 +312,7 @@ namespace Taxi
             if (PageNumber != 8)
             {
                 DisableAllButtons();
-                Detail = new NavigationPage(_historyOrdersPage);
+                Detail = new NavigationPage(_historyOrdersDriverPage);
 
                 _historyOrdersDriverButton.TextColor = Color.FromHex("#FFA940");
                 _historyOrdersDriverButton.BorderColor = Color.FromHex("#D57500");
@@ -616,6 +619,7 @@ namespace Taxi
                 _buttons.Add(_historyOrdersDriverButton);
 
                 PickAutoDriverPage = new PickAutoDriverPage(this);
+                _historyOrdersDriverPage = new HistoryOrdersDriverPage(this);
 
                 LoadDriverStatus();
             }

@@ -1,19 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Xamarin.Essentials;
-using System.Threading;
 
 namespace Taxi
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class HistoryOrdersPage : ContentPage
-	{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class HistoryOrdersDriverPage : ContentPage
+    {
         private FlyoutMenu _flyoutMenu;
 
-        public HistoryOrdersPage(FlyoutMenu menu)
-		{
-			InitializeComponent ();
+        public HistoryOrdersDriverPage(FlyoutMenu menu)
+        {
+            InitializeComponent();
 
             _flyoutMenu = menu;
 
@@ -25,7 +28,7 @@ namespace Taxi
         {
             refreshView.IsRefreshing = true;
             App.Current.Properties.TryGetValue("login", out object login);
-            listView.ItemsSource = (await DataBaseApi.GetOrdersHistoryUserByLogin($"{login}")).Orders;
+            listView.ItemsSource = (await DataBaseApi.GetOrdersHistoryDriverByLogin($"{login}")).Orders;
             listView.HasUnevenRows = true;
             listView.ItemTemplate = new DataTemplate(() =>
             {
@@ -33,10 +36,8 @@ namespace Taxi
                 from.SetBinding(Label.TextProperty, "StartShort", stringFormat: "Из: {0}");
                 Label to = new Label() { FontSize = 15 };
                 to.SetBinding(Label.TextProperty, "FinishShort", stringFormat: "Из: {0}");
-                Label price = new Label() { FontSize = 15 };
-                price.SetBinding(Label.TextProperty, "Price", stringFormat: "{0} Р");
-                Label rating = new Label() { FontSize = 15 };
-                rating.SetBinding(Label.TextProperty, "Rating", stringFormat: "Оценка: {0}");
+                Label time = new Label() { FontSize = 15 };
+                time.SetBinding(Label.TextProperty, "TimeFinish", stringFormat: "Время завершения: {0}");
                 Label date = new Label() { FontSize = 15 };
                 date.SetBinding(Label.TextProperty, "Date", stringFormat: "Дата: {0}");
 
@@ -44,7 +45,7 @@ namespace Taxi
                 {
                     View = new StackLayout
                     {
-                        Children = { from, to, price, rating, date },
+                        Children = { from, to, time, date},
                         Padding = new Thickness(0, 5),
                         Orientation = StackOrientation.Vertical
                     }

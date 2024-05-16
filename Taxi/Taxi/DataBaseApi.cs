@@ -56,7 +56,9 @@ namespace Taxi
             GetCurrentDriverOrderIdByDriverLogin,
             GetFavoriteAddressesByLogin,
             RemoveFavoriteAddressById,
-            AddFavoriteAddress
+            AddFavoriteAddress,
+            GetOrdersHistoryUserByLogin,
+            GetOrdersHistoryDriverByLogin
         }
 
         public static async Task<int> GetCountByLogin(string login)
@@ -505,6 +507,30 @@ namespace Taxi
             };
 
             await _httpClient.PostAsync(GetUrl(ApiFile.AddFavoriteAddress), new FormUrlEncodedContent(inputData));
+        }
+
+        public static async Task<JsonOrders> GetOrdersHistoryUserByLogin(string loginUser)
+        {
+            Dictionary<string, string> inputData = new Dictionary<string, string>
+            {
+                { "login", loginUser }
+            };
+
+            JsonOrders result = JsonConvert.DeserializeObject<JsonOrders>(await RequestApiGetJson(ApiFile.GetOrdersHistoryUserByLogin, inputData));
+
+            return result;
+        }
+
+        public static async Task<JsonOrders> GetOrdersHistoryDriverByLogin(string loginDriver)
+        {
+            Dictionary<string, string> inputData = new Dictionary<string, string>
+            {
+                { "login", loginDriver }
+            };
+
+            JsonOrders result = JsonConvert.DeserializeObject<JsonOrders>(await RequestApiGetJson(ApiFile.GetOrdersHistoryDriverByLogin, inputData));
+
+            return result;
         }
 
         private static string GetUrl(ApiFile name)

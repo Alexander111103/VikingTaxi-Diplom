@@ -126,20 +126,28 @@ namespace Taxi
             App.Current.Properties.TryGetValue("login", out object login);
 
             JsonFavoriteAddresses addresses = await DataBaseApi.GetFavoriteAddressesByLogin($"{login}");
-            List<string> names = new List<string>();
 
-            foreach(var address in addresses.Addresses)
+            if (addresses.Addresses.Count > 0)
             {
-                names.Add(address.Name);
+                List<string> names = new List<string>();
+
+                foreach(var address in addresses.Addresses)
+                {
+                    names.Add(address.Name);
+                }
+
+                string FromAddress = await DisplayActionSheet("Выберите избранный адрес для начальной точки маршрута.", null, null, names.ToArray());
+
+                if (FromAddress != null)
+                {
+                    string coorders = (addresses.Addresses.Find(x => x.Name == FromAddress)).Coorders;
+
+                    map.EvaluateJavaScriptAsync($"SetFromAddress('{coorders}')");
+                }
             }
-
-            string FromAddress = await DisplayActionSheet("Выберите избранный адрес для начальной точки маршрута.", null, null, names.ToArray());
-
-            if (FromAddress != null)
+            else
             {
-                string coorders = (addresses.Addresses.Find(x => x.Name == FromAddress)).Coorders;
-
-                map.EvaluateJavaScriptAsync($"SetFromAddress('{coorders}')");
+                DisplayAlert("Ошибка", "У вас еще нет избранных адресов.\nВы можете создать новый избранный адрес на странице \"Мои адреса\".", "Ok");
             }
 
             ((Button)sender).Clicked += FromAdress_Click;
@@ -152,20 +160,28 @@ namespace Taxi
             App.Current.Properties.TryGetValue("login", out object login);
 
             JsonFavoriteAddresses addresses = await DataBaseApi.GetFavoriteAddressesByLogin($"{login}");
-            List<string> names = new List<string>();
 
-            foreach (var address in addresses.Addresses)
-            {
-                names.Add(address.Name);
+            if (addresses.Addresses.Count > 0)
+            { 
+                List<string> names = new List<string>();
+
+                foreach (var address in addresses.Addresses)
+                {
+                    names.Add(address.Name);
+                }
+
+                string ToAddress = await DisplayActionSheet("Выберите избранный адрес для конечной точки маршрута.", null, null, names.ToArray());
+
+                if (ToAddress != null)
+                {
+                    string coorders = (addresses.Addresses.Find(x => x.Name == ToAddress)).Coorders;
+
+                    map.EvaluateJavaScriptAsync($"SetToAddress('{coorders}')");
+                }
             }
-
-            string FromAddress = await DisplayActionSheet("Выберите избранный адрес для конечной точки маршрута.", null, null, names.ToArray());
-
-            if (FromAddress != null)
+            else
             {
-                string coorders = (addresses.Addresses.Find(x => x.Name == FromAddress)).Coorders;
-
-                map.EvaluateJavaScriptAsync($"SetToAddress('{coorders}')");
+                DisplayAlert("Ошибка", "У вас еще нет избранных адресов.\nВы можете создать новый избранный адрес на странице \"Мои адреса\".", "Ok");
             }
 
             ((Button)sender).Clicked += ToAdress_Click;
@@ -657,6 +673,9 @@ namespace Taxi
         private async void LoadingActiveOrder()
         {
             App.Current.Properties.TryGetValue("login", out object login);
+
+            await Task.Delay(new TimeSpan(0, 0, 3));
+
             int activeOrderId = await DataBaseApi.GetActiveOrderIdByLoginUser($"{login}");
 
             if (activeOrderId != 0)

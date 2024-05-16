@@ -34,7 +34,7 @@
             <Button x:Name="Sleep" Text="Закончить работу" Grid.Row="0" Grid.Column="3" FontSize="10" Clicked="Sleep_Click" IsEnabled="True"/>
         </Grid>
         <RefreshView x:Name="refreshView" RefreshColor="#2196F3" IsRefreshing="{Binding IsRefreshind}" Command="{Binding Command}">
-            <ListView x:Name="listView">
+            <ListView x:Name="listView" SeparatorColor="#2196F3">
 
             </ListView>
         </RefreshView>

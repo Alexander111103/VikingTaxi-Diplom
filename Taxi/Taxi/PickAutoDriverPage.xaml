@@ -15,9 +15,11 @@
         <StackLayout>
             <Label Text="Вы в состоянии sleep" FontSize="20" HorizontalOptions="Center" />
             <Label Text="Выберите автомобиль для работы" Margin="0, 0, 0, 20" HorizontalOptions="Center" />
-            <ListView x:Name="listView">
+            <RefreshView x:Name="refreshView" RefreshColor="#2196F3" IsRefreshing="{Binding IsRefreshind}" Command="{Binding Command}">
+                <ListView x:Name="listView" SeparatorColor="#2196F3">
                 
-            </ListView>
+                </ListView>
+            </RefreshView>
         </StackLayout>
     </StackLayout>
 </ContentPage>

@@ -13,7 +13,7 @@
             </AbsoluteLayout>
         </Frame>
         <RefreshView x:Name="refreshView" RefreshColor="#2196F3" IsRefreshing="{Binding IsRefreshind}" Command="{Binding Command}" AbsoluteLayout.LayoutBounds="0, 0.2, 1, 0.42" AbsoluteLayout.LayoutFlags="All">
-            <ListView x:Name="listView">
+            <ListView x:Name="listView" SeparatorColor="#2196F3">
 
             </ListView>
         </RefreshView>
