@@ -11,8 +11,8 @@
             <Label Text="Авторизация" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
         </Frame>
         <StackLayout HorizontalOptions="Center" AbsoluteLayout.LayoutBounds="0.5, 0.5, 350, AutoSize" AbsoluteLayout.LayoutFlags="PositionProportional">
-            <Entry x:Name="loginEntry" Placeholder="Логин" WidthRequest="300" Margin="0, 0, 0, 16" />
-            <Entry x:Name="passwordEntry" Placeholder="Пароль" IsPassword="True" WidthRequest="300" Margin="0, 0, 0, 16" />
+            <Entry x:Name="loginEntry" Placeholder="Логин" WidthRequest="300" Margin="0, 0, 0, 16" TextColor="Black" PlaceholderColor="Gray" BackgroundColor="WhiteSmoke"/>
+            <Entry x:Name="passwordEntry" Placeholder="Пароль" IsPassword="True" WidthRequest="300" Margin="0, 0, 0, 16"  TextColor="Black" PlaceholderColor="Gray" BackgroundColor="WhiteSmoke"/>
             <Button x:Name="buttonLogin" WidthRequest="300" HeightRequest="40" Text="Авторизоваться" Clicked="Authorization_Click" />
             <FlexLayout Direction="Row" WidthRequest="300" HeightRequest="40">
                 <Label Text="Сохранить логин и пароль" FontFamily="Arial" FontAttributes="Bold" WidthRequest="120" />

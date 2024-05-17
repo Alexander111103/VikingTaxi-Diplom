@@ -11,12 +11,12 @@
             <Label Text="Регистрация" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
         </Frame>
         <StackLayout HorizontalOptions="Center" AbsoluteLayout.LayoutBounds="0.5, 0.5, 350, AutoSize" AbsoluteLayout.LayoutFlags="PositionProportional">
-            <Entry x:Name="loginEntry" Placeholder="Логин" WidthRequest="300" Margin="0, 0, 0, 16" />
-            <Entry x:Name="nameEntry" Placeholder="Имя" WidthRequest="300" Margin="0, 0, 0, 16" />
-            <Entry x:Name="lastNameEntry" Placeholder="Фамилия" WidthRequest="300" Margin="0, 0, 0, 16" />
-            <Entry x:Name="phoneEntry" Placeholder="Телефон" WidthRequest="300" Margin="0, 0, 0, 16" Keyboard="Telephone"/>
-            <Entry x:Name="passwordEntry" Placeholder="Пароль" IsPassword="True" WidthRequest="300" Margin="0, 0, 0, 16" />
-            <Entry x:Name="passwordThoEntry" Placeholder="Повторите Пароль" IsPassword="True" WidthRequest="300" Margin="0, 0, 0, 16" />
+            <Entry x:Name="loginEntry" Placeholder="Логин" WidthRequest="300" Margin="0, 0, 0, 16"  TextColor="Black" PlaceholderColor="Gray" BackgroundColor="WhiteSmoke"/>
+            <Entry x:Name="nameEntry" Placeholder="Имя" WidthRequest="300" Margin="0, 0, 0, 16"  TextColor="Black" PlaceholderColor="Gray" BackgroundColor="WhiteSmoke"/>
+            <Entry x:Name="lastNameEntry" Placeholder="Фамилия" WidthRequest="300" Margin="0, 0, 0, 16"  TextColor="Black" PlaceholderColor="Gray" BackgroundColor="WhiteSmoke"/>
+            <Entry x:Name="phoneEntry" Placeholder="Телефон" WidthRequest="300" Margin="0, 0, 0, 16" Keyboard="Telephone"  TextColor="Black" PlaceholderColor="Gray" BackgroundColor="WhiteSmoke"/>
+            <Entry x:Name="passwordEntry" Placeholder="Пароль" IsPassword="True" WidthRequest="300" Margin="0, 0, 0, 16"  TextColor="Black" PlaceholderColor="Gray" BackgroundColor="WhiteSmoke"/>
+            <Entry x:Name="passwordThoEntry" Placeholder="Повторите Пароль" IsPassword="True" WidthRequest="300" Margin="0, 0, 0, 16"  TextColor="Black" PlaceholderColor="Gray" BackgroundColor="WhiteSmoke"/>
             <FlexLayout Direction="Row" WidthRequest="280" HeightRequest="50">
                 <Button Text="Согласиться с пользовательским соглашением" FontFamily="Arial" FontAttributes="Bold" WidthRequest="250" TextColor="Gray" BackgroundColor="White" FontSize="12" Clicked="CustomResolution_Click"/>
                 <Switch IsToggled="false" x:Name="swichAgree" OnColor="#21c5f3" ThumbColor="#2196F3" />

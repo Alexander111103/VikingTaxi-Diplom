@@ -242,7 +242,7 @@ namespace Taxi
                     }
                     else
                     {
-                        DisplayAlert("Ошибка", "Вы не вошлив состояние sleep", "Ok");
+                        DisplayAlert("Ошибка", "Вы не вошли в состояние sleep", "Ok");
                     }
                     break;
 

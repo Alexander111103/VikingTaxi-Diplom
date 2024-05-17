@@ -1,104 +1,209 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Taxi.App">
+  <Class Name="Taxi.AdminHubPage">
     <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAAIAAAAAAQAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>AdminHubPage.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Taxi.App">
+    <Position X="8.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAABAAAAgAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>App.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Taxi.Authorization">
-    <Position X="10.75" Y="2.75" Width="2.75" />
+    <Position X="2.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAgAAAAAAAAEAAEAAAgAAAAAQAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAgAAAAAAAAEAAEAAAgAAAAAQAAAAAAAAAAIAAAAA=</HashCode>
       <FileName>Authorization.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Taxi.DataBaseApi">
-    <Position X="16" Y="0.5" Width="3.75" />
+    <Position X="18" Y="0.5" Width="1.5" />
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
     <NestedTypes>
-      <Enum Name="Taxi.DataBaseApi.ApiFile">
+      <Enum Name="Taxi.DataBaseApi.ApiFile" Collapsed="true">
         <TypeIdentifier>
           <NewMemberFileName>DataBaseApi.cs</NewMemberFileName>
         </TypeIdentifier>
       </Enum>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAAERAAAAAAAAAgAABAAgBAAEQIAAAJAjBCAAIBAAAA=</HashCode>
+      <HashCode>AABETwABAgAgAAkAMFGAgBEAEQJMACJAnBCAAIBBAAA=</HashCode>
       <FileName>DataBaseApi.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Taxi.FlyoutMenu">
-    <Position X="0.5" Y="2.5" Width="3.5" />
+    <Position X="16.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ABHAAMAQgAgEAAAACIACCBQAYACBhJAADAgZIAAGQAA=</HashCode>
+      <HashCode>AhXAAMAQgAgAgAgACACCCBQAYACDgIAAXCgdIBBGQAA=</HashCode>
       <FileName>FloyoutMenu.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Taxi.HistoryOrdersPage">
-    <Position X="8" Y="0.5" Width="2.5" />
+  <Class Name="Taxi.GamePage">
+    <Position X="4.5" Y="9.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAACAAAAAAAAAAAIAAAAAAQAEAAAAAAIAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAQAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>GamePage.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Taxi.HistoryOrdersDriverPage">
+    <Position X="2.25" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAJAAAAAAQAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>HistoryOrdersDriverPage.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Taxi.HistoryOrdersPage">
+    <Position X="4.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAJAAAAAAQAAAAAAAAAIAAAAA=</HashCode>
       <FileName>HistoryOrdersPage.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="Taxi.InfoPage">
+    <Position X="4.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAQAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>InfoPage.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Taxi.JsonCar">
+    <Position X="8.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAACAACQAAAAAAAAAEAAAAAAAAAAAAAAAACAoAABAAA=</HashCode>
+      <FileName>JsonCars.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Taxi.JsonCars">
+    <Position X="10.5" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>JsonCars.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Taxi.JsonFavoriteAddress">
+    <Position X="0.5" Y="5.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAADAAACAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>JsonFavoriteAddresses.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Taxi.JsonFavoriteAddresses">
+    <Position X="0.5" Y="9.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>JsonFavoriteAddresses.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Class Name="Taxi.JsonObjecktOne">
-    <Position X="10.75" Y="7.75" Width="1.5" />
+    <Position X="0.5" Y="8" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
       <FileName>JsonObjecktOne.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="Taxi.JsonOrder">
+    <Position X="6.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>wBACBAAEAQACAABEAAAQgAgAAAABAANRBAQBAAAAQAQ=</HashCode>
+      <FileName>JsonOrders.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Taxi.JsonOrders">
+    <Position X="4.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>JsonOrders.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Taxi.JsonPrice">
+    <Position X="4.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAEAAAAAAAAAAAACAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>JsonPrice.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Class Name="Taxi.JsonRouteInfo">
-    <Position X="12.5" Y="7.75" Width="1.5" />
+    <Position X="8.5" Y="5.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>gBAAAAAAAAACAAAAAAAAAAAAAAAAAAJABAABAAAAQAQ=</HashCode>
       <FileName>JsonRouteInfo.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Taxi.JsonTaxiInfo">
-    <Position X="14.25" Y="7.75" Width="1.5" />
+    <Position X="2.75" Y="8.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAABEAAACAoAABQAg=</HashCode>
       <FileName>JsonTaxiInfo.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Taxi.MainPage">
-    <Position X="4.25" Y="0.5" Width="3.5" />
+    <Position X="14.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>A4BAAAQCEAIMIBgiESAgKgQCAB65QYQSAAACZYABQEA=</HashCode>
+      <HashCode>A4BAAQQCEBIIIBhiEyAgKgQCABa5QYQSAAACZYABQEA=</HashCode>
       <FileName>MainPage.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="Taxi.MyAddressesPage">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAQEAAIAAAAAJAAAAA=</HashCode>
+      <FileName>MyAddressesPage.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Taxi.OptionsPage">
+    <Position X="6.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAIAAQAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>OptionsPage.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Taxi.PickAutoDriverPage">
+    <Position X="8.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAACAAQAAAAAAAAAJAAAAA=</HashCode>
+      <FileName>PickAutoDriverPage.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Taxi.ProfilePage">
+    <Position X="2.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAQAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>ProfilePage.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Class Name="Taxi.Registration">
-    <Position X="10.75" Y="0.5" Width="2.75" />
+    <Position X="0.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAgAAAAAAAAAAAEAAAgAAAAIAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Registration.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Taxi.JsonPrice">
-    <Position X="9" Y="7.75" Width="1.5" />
+  <Class Name="Taxi.SearchOrderDriverPage">
+    <Position X="10.25" Y="0.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>BAAAAAAAAEAAAAAAAAAAAACAAAAAAAAAAAAAAAEAAAA=</HashCode>
-      <FileName>JsonPrice.cs</FileName>
+      <HashCode>gAKggAAAAAAAABAEAAAAJAACAAAQAAAACAAAAZAAAAI=</HashCode>
+      <FileName>SearchOrderDriverPage.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Taxi.Taxameter">
-    <Position X="14.25" Y="0.5" Width="1.5" />
+    <Position X="10.5" Y="5.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AkIAACAAgDAAABAAEAACAAAAAAAABAEAIRACAAAAAIA=</HashCode>
+      <HashCode>AkIAACAAgDAAAAAAEAACACAAAAAABAEAIRACAAAAAAA=</HashCode>
       <FileName>Taxameter.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Taxi.AdminHubPage">
-    <Position X="8" Y="3.25" Width="1.5" />
+  <Class Name="Taxi.TaxameterPage">
+    <Position X="12.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAQAAAAAAAAIAAAAAAQAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>AdminHubPage.xaml.cs</FileName>
+      <HashCode>QAAAAAAIgYAgABIAEAAMIQAAIAAYAggAQABABoCQEAA=</HashCode>
+      <FileName>TaxameterPage.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
