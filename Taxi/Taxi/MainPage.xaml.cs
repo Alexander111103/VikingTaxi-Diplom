@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Taxi
 {
@@ -129,12 +130,7 @@ namespace Taxi
 
             if (addresses.Addresses.Count > 0)
             {
-                List<string> names = new List<string>();
-
-                foreach(var address in addresses.Addresses)
-                {
-                    names.Add(address.Name);
-                }
+                List<string> names = addresses.Addresses.Select(x => x.Name).ToList();
 
                 string FromAddress = await DisplayActionSheet("Выберите избранный адрес для начальной точки маршрута.", null, null, names.ToArray());
 
@@ -163,12 +159,7 @@ namespace Taxi
 
             if (addresses.Addresses.Count > 0)
             { 
-                List<string> names = new List<string>();
-
-                foreach (var address in addresses.Addresses)
-                {
-                    names.Add(address.Name);
-                }
+                List<string> names = addresses.Addresses.Select(x => x.Name).ToList();
 
                 string ToAddress = await DisplayActionSheet("Выберите избранный адрес для конечной точки маршрута.", null, null, names.ToArray());
 

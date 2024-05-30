@@ -64,6 +64,8 @@ namespace Taxi
             {
                 DataBaseApi.RemoveFavoriteAddressById(address.Id);
 
+                await Task.Delay(500);
+
                 LoadAddresses();
             }
         }
@@ -89,6 +91,8 @@ namespace Taxi
                     App.Current.Properties.TryGetValue("login", out object login);
 
                     DataBaseApi.AddFavoriteAddress($"{login}", name, coorders.Replace('[', ' ').Replace(']', ' ').Trim());
+
+                    await Task.Delay(500);
 
                     LoadAddresses();
                 }
