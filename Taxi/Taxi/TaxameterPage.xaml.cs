@@ -27,7 +27,7 @@ namespace Taxi
             _flyoutMenu = menu;
             _idOrder = idOrder;
 
-            _taxameter = new Taxameter();
+            _taxameter = new Taxameter(idOrder);
 
             Logo.Source = ImageSource.FromResource("Taxi.Images.logo.png");
             SetActualPrice();
@@ -199,6 +199,8 @@ namespace Taxi
 
         private void Close_Click(object sender, EventArgs e)
         {
+            ((Button)sender).Clicked -= Close_Click;
+
             PushToSearch();
         }
 

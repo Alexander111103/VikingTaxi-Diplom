@@ -34,7 +34,7 @@ namespace Taxi
                 }
                 else
                 {
-                    if (!int.TryParse(phoneEntry.Text, out int res))
+                    if (!long.TryParse(phoneEntry.Text, out long res))
                     {
                         await DisplayAlert("Ошибка", $"Телефон указан не верно.", "Ok");
 

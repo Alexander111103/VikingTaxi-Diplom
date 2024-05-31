@@ -7,6 +7,7 @@ namespace Taxi
 {
     public class Taxameter
     {
+        private int _idOrder;
         private bool _isLaunched = false;
         private int _interval;
         private float _rubelPerKm;
@@ -16,11 +17,12 @@ namespace Taxi
         private Xamarin.Essentials.Location _nowLocation;
         private Xamarin.Essentials.Location _lastLocation;
         private int _minPrice;
+        private int _fastSearchPrice = 0;
         private int _timeToGetLocation = 2;
 
-        public Taxameter()
+        public Taxameter(int idOrder)
         {
-
+            _idOrder = idOrder;
         }
 
         public bool IsActive { get; private set; } = false;
@@ -32,13 +34,15 @@ namespace Taxi
                 _isLaunched = true;
 
                 JsonPrice price = await DataBaseApi.GetActualPrice();
+                JsonOrder order = await DataBaseApi.GetOrderById(_idOrder);
 
+                SetFastSearchPrice(order);
 
                 _interval = 60 / price.PricePerMin - 1 - _timeToGetLocation;
                 _rubelPerKm = price.PricePerKm;
                 _minPrice = price.MinPrice;
 
-                _price = price.StartPrice;
+                _price = price.StartPrice + _fastSearchPrice;
             }
 
             IsActive = true;
@@ -93,6 +97,27 @@ namespace Taxi
                 }
 
                 _lastLocation = _nowLocation;
+            }
+        }
+
+        private void SetFastSearchPrice(JsonOrder order)
+        {
+            switch (order.Rate)
+            {
+                case "base":
+                case "child":
+                    if (Convert.ToInt32(order.Priority) > 0)
+                    {
+                        _fastSearchPrice = 50;
+                    }
+                    break;
+
+                case "business":
+                    if (Convert.ToInt32(order.Priority) > 1)
+                    {
+                        _fastSearchPrice = 50;
+                    }
+                    break;
             }
         }
     }
