@@ -44,3 +44,10 @@ Yandex Map - Интегрированная карта от Яндекс.
 ### Backend
 Php - Язык программирования на сервере приложения.     
 MySql - СУБД на сервере приложения.
+
+## Изображения
+![alt](https://github.com/Alexander111103/VikingTaxi-Diplom/blob/master/images/1.jpg)
+![alt](https://github.com/Alexander111103/VikingTaxi-Diplom/blob/master/images/2.jpg)
+![alt](https://github.com/Alexander111103/VikingTaxi-Diplom/blob/master/images/3.jpg)
+![alt](https://github.com/Alexander111103/VikingTaxi-Diplom/blob/master/images/4.jpg)
+![alt](https://github.com/Alexander111103/VikingTaxi-Diplom/blob/master/images/5.jpg)
